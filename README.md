@@ -54,7 +54,7 @@ PS:dans chaque fichier est notee le nom des personnes qui ont travaillé ci dess
 ***la gestion des modules Partie admin 
 
 
-***la gestion des elements de modules (ajout des elements de modules , leurs responsables , les ensegnants , prerequis) Partie admin
+***la gestion des elements de modules (ajout des elements de modules , leurs responsables , les enseignants , prerequis) Partie admin
 
 
 ===>le dossier face recognition(en commun avec codeverse)
