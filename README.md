@@ -46,3 +46,26 @@ PS:dans chaque fichier est notee le nom des personnes qui ont travaillé ci dess
 
 
 ================>Partie ARopedia
+
+
+===>tous le dossier module ou on a fait :
+
+
+***la gestion des modules Partie admin 
+
+
+***la gestion des elements de modules (ajout des elements de modules , leurs responsables , les ensegnants , prerequis) Partie admin
+
+
+===>le dossier face recognition(en commun avec codeverse)
+
+
+===>le dossier template "module" nous concerne 
+
+
+===>le dossier templates(en commun avec tous les equipes)
+
+
+***c'est la ou on a le metier de gestion de presence du training jusqu'au retour des listes de presence sur mobile
+
+
