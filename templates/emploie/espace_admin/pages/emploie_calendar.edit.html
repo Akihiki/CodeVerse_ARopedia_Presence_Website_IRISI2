@@ -1,0 +1,90 @@
+<!--
+  EQUIPE  : CodeVerse
+  @author : FIROUD Reda & OUSSAHI Salma
+-->
+
+{% extends '../base.html' %}
+
+
+{% load static %}
+
+{% block title %} Emploi du temps {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-xl-5 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-1">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+
+                        <div class="col-auto">
+                            <i class="fas fa-calendar-day fa-3x text-primary"></i>
+                        </div>
+
+                        <div class="col ml-4">
+                            <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Time Schedule</div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">Admin : {{ user.username }}</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">{% now "l d F Y, H:i" %}</h6>
+        </div>
+        <div class="card-body">
+            
+                        <form method="post" action="../../emploie/edit/{{plannings.id}}">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Element de module:</label>
+                                    <input type="text" name="eid" id="id_eid" required maxlength="20" value="{{ plannings.element_module }}"/>  
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="message-text" class="col-form-label">Salle:</label>
+                                    <input type="text" name="eid" id="id_eid" required maxlength="20" value="{{ plannings.salle }}"/>  
+                                </div>
+                                <div class="form-group">
+                                    <label for="message-text" class="col-form-label">Professeur:</label>
+                                    <input type="text" name="eid" id="id_eid" required maxlength="20" value="{{ plannings.professeur }}"/>  
+                                </div>
+                                <div class="form-group">
+                                    <label for="message-text" class="col-form-label">Groupe:</label>
+                                    <input type="text" name="eid" id="id_eid" required maxlength="20" value="{{ plannings.groupe }}"/>  
+                                </div>
+                                <div class="form-group">
+                                    <label for="message-text" class="col-form-label">Jour:</label>
+                                    <input type="text" name="eid" id="id_eid" required maxlength="20" value="{{ plannings.jour }}"/>  
+                                </div>
+                                <div class="form-group">
+                                    <label for="message-text" class="col-form-label">Heure debut:</label>
+                                    <input type="text" name="eid" id="id_eid" required maxlength="20" value="{{ plannings.heure_debut }}"/>  
+                                </div>
+                                <div class="form-group">
+                                    <label for="message-text" class="col-form-label">Heure fin:</label>
+                                    <input type="text" name="eid" id="id_eid" required maxlength="20" value="{{ plannings.heure_fin }}"/> 
+                                </div>
+                                
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                        
+ 
+        </div>
+
+    </div>
+
+   
+
+
+{% endblock %}

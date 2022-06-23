@@ -1,0 +1,157 @@
+{## UnivIt responsable : ismail errouk #}
+{% extends 'admin/base-home.html' %}
+
+{% block title %}
+Add Student
+{% endblock title %}
+
+{% block content %}
+
+{% load static %}
+
+
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header col-12" style="display: flex; justify-content: space-between">
+                        <h3 class="card-title">Ajouter étudiant</h3>
+                        <button class="btn btn-success"  data-toggle="modal" data-target="#exampleModal">importer un fichier CSV</button>
+                    </div>
+                            <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                      <form method="post" action="{% url 'add_csv_file_student' %}" enctype="multipart/form-data">
+                                        {% csrf_token %}
+
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un fichier CSV</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">×</span>
+                                        </button>
+                                      </div>
+                                      <div class="modal-body">
+                                            <input class="form-control"  type="file" name="csv_file" placeholder="Impoter le fichier CSV">
+                                      </div>
+
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+
+                                      </div>
+
+                                    </div>
+                                           </form>
+                                  </div>
+                                </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <!-- {# {% url 'add_student_save' as action_path %}#}
+                    {# {% include 'admin/form_template.html' with messages=messages form=form action_path=action_path
+                    button_text="Save & Add Groups" %}#} -->
+                    <div class="container" style="padding: 1%">
+                        <form method="post" action="{% url 'add_student_save' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row" style="padding: 1%">
+                                <div class="col">
+                                    <label>Prénom :</label>
+                                    <input type="text" class="form-control" placeholder="Prénom" required
+                                        name="first_name">
+                                </div>
+                                <div class="col">
+                                    <label>Nom :</label>
+                                    <input type="text" class="form-control" placeholder="Nom" required
+                                        name="last_name">
+                                </div>
+                            </div>
+                            <div class="row" style="padding: 1%">
+                                <div class="col">
+                                    <label>Email :</label>
+                                    <input type="text" class="form-control" placeholder="Email" name="email" required>
+                                </div>
+                            </div>
+                            <div class="row" style="padding: 1%">
+                                <div class="col">
+                                    <label>Mot de passe :</label>
+                                    <input type="password" class="form-control" placeholder="Mot de passe" required
+                                        name="password">
+                                </div>
+                                <div class="col">
+                                    <label>Confirmer le mot de passe :</label>
+                                    <input type="password" class="form-control" placeholder="Confirmer le mot de passe" required
+                                        name="confirm_password">
+                                </div>
+                            </div>
+                            <div class="row" style="padding: 1%">
+                                <div class="col">
+                                    <label>CNE :</label>
+                                    <input type="text" class="form-control" placeholder="CNE" required name="cne">
+                                </div>
+                                <div class="col">
+                                    <label>Adresse :</label>
+                                    <input type="text" class="form-control" placeholder="Address" required
+                                        name="adresse">
+                                </div>
+                            </div>
+                            <div class="row" style="padding: 1%">
+                                <div class="col">
+                                    <label>Telephone :</label>
+                                    <input type="text" class="form-control" placeholder="Telephone" required
+                                        name="telephone">
+                                </div>
+                                <div class="col">
+                                    <label>Code Apogee :</label>
+                                    <input type="text" class="form-control" placeholder="Code Apogee" required
+                                        name="code_apogee">
+                                </div>
+                            </div>
+                            <div class="row" style="padding: 1%">
+                                <div class="col">
+                                    <label>Image de profile :</label>
+                                    <input type="file" class="form-control" placeholder="Image de profile" required
+                                        name="profile_pic">
+                                </div>
+                            </div>
+                            <div class="row" style="padding: 1%">
+                                <div class="col">
+                                    <label for="">Admin : </label>
+                                    <select required name="select_admin">
+                                        {% for admin in admins %}
+                                        <option value="{{ admin.id }}">{{ admin.admin.first_name}}
+                                            {{admin.admin.last_name }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            {# <button class="btn btn-success center" type="submit">Save & Add Group</button>#}
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <button class="btn btn-success" type="submit">Enregister et ajouter les groupes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.card -->
+
+
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock content %}
+
+{% block custom_js %}
+{% comment %} Checking if email and username already exists or not usin Ajax {% endcomment %}
+
+
+
+{% endblock custom_js %}

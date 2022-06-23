@@ -1,0 +1,98 @@
+{% extends 'admin/base-home.html' %}
+{% block title %}
+    Ajout Modules
+{% endblock title %}
+{% block content %}
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid mt-5">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">
+                            <span style="color: #0080c0;">{{ niveau.nom_niveau }}</span> <span>| Nouveau Module</span>
+                        </h1>
+                    </div>
+                  
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'display_levels' name_=filiere.nom_filiere %}"
+                                   class="text-decoration-none">
+                                    <img src="https://img.icons8.com/color/24/000000/arrow-pointing-left--v2.png"/>
+                                Retour</a>
+                            </li>
+                            {% comment %} <li class="breadcrumb-item active"> <a href="{% url 'manage_modules' %}">Modules/Getion_Modules</a></li> {% endcomment %}
+                        </ol>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+    </div>
+    {% if messages %}
+        <div class="login-box-msg mb-4 ml-4 col-12">
+            {% for message in messages %}
+                {% if message.tags == "error" %}<span class="alert alert-danger">{{ message }}</span>{% endif %}
+                {% if message.tags == "success" %}<span class="alert alert-success">{{ message }}</span>{% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <section class="content">
+        <div class="container-fluid mt-5">
+            <div class="card card-dark">
+                <div class="card-header">
+                    <h3 class="card-title">Ajouter Module</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form role="form"
+                      action="/add_module_save"
+                      method="post"
+                      name="formName"
+                      id="myform">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="form-group">
+                                    <label for="example">Libelle module</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           id="example"
+                                           placeholder="Analyse"
+                                           name="module">
+                                           <input type="hidden" name="filiere_" value="{{ niveau.filiere.nom_filiere }}">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>Semestre</label>
+                                    <select class="form-control" name="semestre_id">
+                                        <
+                                        {% for semestre in semestres %}
+                                            <option value="{{ semestre.id }}">
+                                                {{ semestre.libelle_semestre }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col mt-4">
+                               
+                                    <a href="javascript:;"
+                                       class="text-decoration-none"
+                                       onclick="document.getElementById('myform').submit()">
+                                        <img src="https://img.icons8.com/ios-filled/50/4a90e2/plus-2-math.png"/>
+                                    </a>
+                           
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

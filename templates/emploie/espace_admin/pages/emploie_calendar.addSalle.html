@@ -1,0 +1,111 @@
+<!--
+  EQUIPE  : CodeVerse
+  @author : FIROUD Reda & OUSSAHI Salma
+-->
+
+{% extends '../base.html' %}
+
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} Emploi du temps {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-xl-5 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-1">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+
+                        <div class="col-auto">
+                            <i class="fas fa-calendar-day fa-3x text-primary"></i>
+                        </div>
+
+                        <div class="col ml-4">
+                            <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Time Schedule</div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">Admin : {{ user.username }}</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">{% now "l d F Y, H:i" %}</h6>
+        </div>
+        <div class="card-body">
+            <h1>Ajouter une salle</h1>
+                        <form method="post" action="{% url 'AddSalle' %}">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                
+                                <div class="form-row">
+                                    <div class="col">
+                                        {{ form.nom_salle |as_crispy_field}}
+                                    </div>
+                                    <div class="col form-check form-check-inline">
+                                        {{ form.disponible|as_crispy_field }}
+                                    </div>
+                                    <div class="col">
+                                        {{ form.type_salle |as_crispy_field}}
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            </div>
+                        </form>
+                        
+                        <h2 class="m-0 font-weight-bold text-success">Salles</h2>
+
+                        <table class="table table-hover">
+                            <thead>
+            
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nom Salle</th>
+                                <th scope="col">Disponibilité</th>
+                                <th scope="col">Type Salle</th>
+                                
+                                <th scope="col"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                            {% for salle in salles %}
+            
+                              <tr>
+                                <th scope="row">1</th>
+                                <td>{{ salle.nom_salle}}</td>
+                                <td>
+                                  {% if salle.disponible == 1 %}
+                                      Disponible
+                                  {% endif %}
+                                  {% if salle.disponible == 0 %}
+                                      Non disponible
+                                  {% endif %}
+                                  <!-- {{ salle.disponible}} -->
+          
+                                </td>
+                                <td>{{ salle.type_salle}}</td>
+                                
+                                <td>
+                                        <a type="button" href="../editSalle/{{ salle.id }}" class="btn btn-primary">Edit</a>
+                                        <a type="button" href="../destroySalle/{{ salle.id }}" class="btn btn-danger">Delete</a>
+                                </td>
+                              </tr>
+                            {% endfor %}  
+                            </tbody>
+                          </table>
+        </div>
+
+    </div>
+
+   
+
+
+{% endblock %}

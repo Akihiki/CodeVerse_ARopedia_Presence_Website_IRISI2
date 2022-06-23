@@ -1,0 +1,64 @@
+<!--
+  EQUIPE  : Univit
+  @author : Koutar OUBENADDI
+-->
+{% extends "cours/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %} Modification du Chapitre {% endblock title%}
+{% block content %}
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <div class="row mr-3">
+            <div class="col col-12 text-center">
+                <h4 class="m-3">
+                    Modification du Chapitre
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <div class="row">
+            <div class="col-12 text-center d-none d-block">
+                <p class="m-3">
+                    Modifier le chapitre : {{updated_chapitre.libelle.value}} ...
+                </p>
+                <hr class="mb-6">
+            </div>
+        </div>
+        <form class="row g-3" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-12 d-none d-block ml-3">
+                Intitulé du Chapitre :
+            </div>
+            <div class="form-group col-12 mr-3">
+                <div class="col-12 p-3"> {{updated_chapitre.libelle|as_crispy_field}}</div>
+            </div>
+            <div class="col-12 d-none d-block ml-3">
+                Description du Chapitre :
+            </div>
+            <div class="form-group col-12 mr-3">
+                <div class="col-12 p-3"> {{updated_chapitre.description|as_crispy_field}}</div>
+            </div>
+            <div class="col-12 d-none d-block ml-3">
+                Image du Chapitre :
+            </div>
+            <div class="form-group col-12 mr-3">
+                <div class="col-12 p-3"> {{updated_chapitre.image|as_crispy_field}}</div>
+            </div>
+            <div class="col-12 d-none d-block ml-3">
+                Module du Chapitre :
+            </div>
+            <div class="form-group col-12 mr-3">
+                <div class="col-12 p-3"> {{updated_chapitre.element_module|as_crispy_field}}</div>
+            </div>
+            <div class="form-group col-12 text-center mr-3">
+                <button type="submit" class="btn btn-primary">Confirmer</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

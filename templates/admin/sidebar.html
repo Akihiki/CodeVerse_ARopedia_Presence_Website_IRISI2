@@ -1,0 +1,154 @@
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">e-platform</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0" />
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item">
+        {% url 'admin_home' as admin_home %}
+        <a href="{{ admin_home }}" class="nav-link {% if request.path == admin_home %} active {% endif %}">
+            <i class="nav-icon fas fa-toolbox"></i>
+            <span>Admin Home </span>
+        </a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider" />
+
+    <!-- Heading -->
+    <div class="sidebar-heading">Interfaces</div>
+
+    <!-- Entrainement du modèle-->
+    <li class="nav-item">
+        <a href="{% url 'EntrainementAdminDash' %}" class="nav-link">
+            <i class="nav-icon fas fa-th"></i>
+            <span>Entrainement Modèles</span>
+        </a>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block" />
+    <!-- Gestion des Utilisateurs, Roles et Permissions -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Utilisateurs</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Utilisateurs :</h6>
+                <a class="collapse-item" href="{% url 'upload_csv' %}">Importer - CSV</a>
+                <a class="collapse-item" href="{% url 'manage_professeur' %}">Professeurs</a>
+                <a class="collapse-item" href="{% url 'manage_student' %}">Etudiants</a>
+                <h6 class="collapse-header">Roles :</h6>
+                <a class="collapse-item" href="{% url 'add_role' %}">Ajouter Rôles</a>
+                <a class="collapse-item" href="{% url 'manage_roles' %}">Gestion Roles</a>
+                <h6 class="collapse-header">Permissions :</h6>
+                <a class="collapse-item" href="{% url 'add_permission' %}">Ajouter Permissions</a>
+                <a class="collapse-item" href="{% url 'manage_permissions' %}">Gestion Permissions</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item active">
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block" />
+
+        <!-- Gestion des Etablissements & Filières -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-globe"></i>
+            <span>Etablissements</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Etablissements :</h6>
+                <a class="collapse-item" href="{% url 'etablissement' %}">Gestion Etablissements</a>
+                <h6 class="collapse-header">Filières :</h6>
+                <a class="collapse-item" href="{% url 'filiere' %}">Gestion Filières</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block" />
+
+    <!-- Gestion des Emploies du Temps -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-calendar"></i>
+            <span>Emploies</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Emploies :</h6>
+                {% url 'emploie_admin' as emploie_admin %}
+                <a class="collapse-item" href="{% url 'emploie_admin' %}">Gestion Emploies</a>
+                <a class="collapse-item" href="{% url 'AddPlanning' %}">Ajouter Emploi</a>
+                <a class="collapse-item" href="{% url 'all' %}">Tous les Emploi</a>
+                <a class="collapse-item" href="{% url 'emploiAdmin' %}">Trouver Emploi</a>
+            </div>
+        </div>
+    </li>
+
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block" />
+
+    <!-- Gestion des Salles  -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-landmark"></i>
+            <span>Gestion des Salles</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Salles :</h6>
+                <a class="collapse-item" href="{% url 'AddTypeSalle' %}">Type de salle</a>
+                <a class="collapse-item" href="{% url 'AddSalle' %}">Salle</a>
+            </div>
+        </div>
+    </li>
+
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block" />
+
+    <!-- Gestion des Modules -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Modules</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Modules :</h6>
+                {% url 'emploie_admin' as emploie_admin %}
+                <a class="collapse-item" href="{% url 'display_majors' %}">Fillières</a>
+                <a class="collapse-item" href="{% url 'manage_modules' %}">Gestion Modules</a>
+                <a class="collapse-item" href="{% url 'manage_elem_modules' %}">Gestion Elements Module</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block" />
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+</ul>
+<!-- End of Sidebar -->

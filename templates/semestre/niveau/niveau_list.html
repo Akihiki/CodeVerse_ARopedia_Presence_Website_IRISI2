@@ -1,0 +1,44 @@
+{% extends "users/base-home.html" %}
+
+
+{% block content %}
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Nom Niveau</td>
+            <td>Type Niveau</td>
+            <td>Filiere</td>
+            <td>
+                <a href="{% url 'niveau_insert' %}" class="btn btn-outline-success">
+                    <i class="fas fa-plus"></i> Add New
+                </a>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for niveau in niveau_list %}
+            <tr>
+                <td>{{niveau.nom_niveau}}</td>
+                <td>{{niveau.type_niveau}}</td>
+                <td> <a href="">{{niveau.filiere}}</a></td>
+                <td>
+                    <a href="" class="btn text-secondary px-0 mr-4">
+                        <i class="fa fa-info-circle"> </i>
+                        Details
+                    </a>
+                    <a href="{% url 'niveau_update' niveau.id %}" class="btn text-secondary px-0 ">
+                        <i class="far fa-edit fa-lg"></i>
+                    </a>
+                    <form action="{% url 'niveau_delete' niveau.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">
+                            <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}

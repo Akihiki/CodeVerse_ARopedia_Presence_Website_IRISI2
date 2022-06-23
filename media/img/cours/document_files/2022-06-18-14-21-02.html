@@ -1,0 +1,197 @@
+<!--
+  EQUIPE  : CodeVerse
+  @author : KANNOUFA FATIMA EZZAHRA
+-->
+
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block title %} OUGOUUUUUUUUUUUD {% endblock %}
+
+{% block content %}
+  <div class="row">
+    
+
+
+
+
+    <div class="col-xl-4 mb-4">
+        <div href="" class="card lift border-left-success h-100">
+            <div class="card-body d-flex justify-content-center flex-column">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="me-3">
+                        <div width="24" height="24" class="feather feather-package feather-xl text-primary mb-3">
+                            <i class="fas fa-file-pdf fa-2x text-success"></i>
+                        </div>
+                        <h4 class=" font-weight-bold text-primary text-uppercase mb-1 text-gray-800">Test</h4>
+                        <div class="text-muted small">Lorem ipsum dolor sit amet consectetur adipisicing elit. </div>
+                        <div class="mt-2">
+                            <a href="" class="m-2">
+                                <i class="fas fa-eye text-info"></i>
+                            </a>
+    
+                            <a href="" class="m-2">
+                                <i class="fas fa-pen text-warning"></i>
+                            </a>
+    
+                            <a href="" class="m-2">
+                                <i class="fas fa-trash text-danger"></i>
+                            </a>
+                        </div>   
+                    </div>
+                    <img src="/media/img/univit_logo.png" alt="" style="width: 7rem">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 mb-4">
+        <div href="" class="card lift border-left-warning h-100">
+            <div class="card-body d-flex justify-content-center flex-column">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="me-3">
+                        <div width="24" height="24" class="feather feather-package feather-xl text-primary mb-3">
+                            <i class="fas fa-file-word fa-2x text-warning"></i>
+                        </div>
+                        <h4 class=" font-weight-bold text-primary text-uppercase mb-1 text-gray-800">Test</h4>
+                        <div class="text-muted small">Lorem ipsum dolor sit amet consectetur adipisicing elit. </div>
+                        <div class="mt-2">
+                            <a href="" class="m-2">
+                                <i class="fas fa-eye text-info"></i>
+                            </a>
+    
+                            <a href="" class="m-2">
+                                <i class="fas fa-pen text-warning"></i>
+                            </a>
+    
+                            <a href="" class="m-2">
+                                <i class="fas fa-trash text-danger"></i>
+                            </a>
+                        </div>   
+                    </div>
+                    <img src="/media/img/univit_logo.png" alt="" style="width: 7rem">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 mb-4">
+        <div href="" class="card lift border-left-info h-100">
+            <div class="card-body d-flex justify-content-center flex-column">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="me-3">
+                        <div width="24" height="24" class="feather feather-package feather-xl text-primary mb-3">
+                            <i class="fas fa-file-pdf fa-2x text-info"></i>
+                        </div>
+                        <h4 class=" font-weight-bold text-primary text-uppercase mb-1 text-gray-800">Test</h4>
+                        <div class="text-muted small">Lorem ipsum dolor sit amet consectetur adipisicing elit. </div>
+                        <div class="mt-2">
+                            <a href="" class="m-2">
+                                <i class="fas fa-eye text-info"></i>
+                            </a>
+    
+                            <a href="" class="m-2">
+                                <i class="fas fa-pen text-warning"></i>
+                            </a>
+    
+                            <a href="" class="m-2">
+                                <i class="fas fa-trash text-danger"></i>
+                            </a>
+                        </div>   
+                    </div>
+                    <img src="/media/img/univit_logo.png" alt="" style="width: 7rem">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 mb-4">
+        <div href="" class="card lift border-left-danger h-100">
+            <div class="card-body d-flex justify-content-center flex-column">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="me-3">
+                        <div width="24" height="24" class="feather feather-package feather-xl text-primary mb-3">
+                            <i class="fas fa-image fa-2x text-danger"></i>
+                        </div>
+                        <h4 class=" font-weight-bold text-primary text-uppercase mb-1 text-gray-800">Test</h4>
+                        <div class="text-muted small">Lorem ipsum dolor sit amet consectetur adipisicing elit. </div>
+                        <div class="mt-2">
+                            <a href="" class="m-2">
+                                <i class="fas fa-eye text-info"></i>
+                            </a>
+    
+                            <a href="" class="m-2">
+                                <i class="fas fa-pen text-warning"></i>
+                            </a>
+    
+                            <a href="" class="m-2">
+                                <i class="fas fa-trash text-danger"></i>
+                            </a>
+                        </div>   
+                    </div>
+                    <img src="/media/img/univit_logo.png" alt="" style="width: 7rem">
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+
+
+  <div class="row content">
+    {% for document in documents %}
+
+   
+    <div class="col col-lg-3 col-md-4 col-sm-6 my-4 text-center card-border border">
+        <div class="col col-12">
+           
+            <img class="Description" src="/media/img/cours/document_images/{{document.type}}.png"
+            alt="image" class="rounded">
+            
+        </div>
+        <div class="col col-12 my-3">
+            <h5>{{document.titre}}</h5>
+
+        </div>
+
+        <div class="col col-12 my-3 view-delete-buttons">
+
+            <div class="col col-4 mt-4 text-center">
+                <a href="" id="{{document.id}}" class=" view-traitement tooltip_show"
+                    title="Voir plus d'informations"><i class="fa fa-1x fa-eye"></i></a>
+            </div>
+
+            <div class="col col-4 mt-4 text-center">
+                <a href="#" class="tooltip_update"
+                    style="color:#e5bf41" id="update_object" title="Modifier le modèle"><i
+                        class="fa fa-1x fa-pen"></i></a>
+            </div>
+
+            <div class="col col-4 mt-4 text-center">
+                <a href="{% url 'delete_document' document.id %}"
+                    class="tooltip_delete delete_doc" style="color:#e14848"
+                    id="delete_object" title="Supprimer le document"><i
+                        class="fa fa-1x fa-trash"></i></a>
+            </div>
+
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+  
+  <div class="card shadow mb-4">
+
+      <div class="card-header py-3">
+          
+          
+      </div>
+      
+      <div class="card-body">
+        
+      </div>
+  </div> 
+
+  
+  {% endblock %}

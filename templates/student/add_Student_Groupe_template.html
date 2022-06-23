@@ -1,0 +1,61 @@
+{## UnivIt responsable : ismail errouk #}
+{% extends 'admin/base-home.html' %}
+
+{% block title %}
+Add Student
+{% endblock title %}
+
+{% block content %}
+
+{% load static %}
+
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Ajouter étudiant</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form action="{% url 'add_student_groups_save' id %}" method="post">
+                        {% csrf_token %}
+                        <div class="col-12">
+                            {{ form.as_p }}
+                        </div>
+                 <label for="annee_univ">Année universitaire:</label>
+                    <select name="annee_univ" id="annee_univ">
+                      <option value="2026/2027">2026/2027</option>
+                      <option value="2025/2026">2025/2026</option>
+                      <option value="2024/2025">2024/2025</option>
+                      <option value="2023/2024">2023/2024</option>
+                      <option value="2022/2023">2022/2023</option>
+                      <option value="2021/2022">2021/2022</option>
+                      <option value="2020/2021">2020/2021</option>
+                      <option value="2019/2020">2019/2020</option>
+                      <option value="2018/2019">2018/2019</option>
+                    </select>
+<br/>
+                        <button type="submit" class="btn btn-primary">Add Groupe</button>
+                    </form>
+                </div>
+                <!-- /.card -->
+
+
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock content %}
+
+{% block custom_js %}
+{% comment %} Checking if email and username already exists or not usin Ajax {% endcomment %}
+
+
+
+{% endblock custom_js %}

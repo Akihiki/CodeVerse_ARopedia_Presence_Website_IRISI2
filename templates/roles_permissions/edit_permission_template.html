@@ -1,0 +1,37 @@
+{## UnivIt responsable : ismail errouk #}
+{% extends 'admin/base-home.html' %}
+
+{% block title %}
+    Edit Student | Username: {{ username }} | #ID : {{ id }}
+{% endblock title %}
+
+{% block content %}
+
+{% load static %}
+
+<section class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Modifier Permission</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    {% comment %} Displaying the Django Form using forms.py EditStudentForm {% endcomment %}
+                    {% url 'edit_permission_save' id as action_path %}
+                    {% include 'admin/form_template.html' with  form=form action_path=action_path button_text="Update Permission" %}
+
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+
+  {% endblock content %}

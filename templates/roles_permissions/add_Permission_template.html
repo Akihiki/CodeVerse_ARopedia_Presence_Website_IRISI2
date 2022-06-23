@@ -1,0 +1,43 @@
+{## UnivIt responsable : ismail errouk#}
+{% extends 'admin/base-home.html' %}
+
+{% block title %}
+    Add Student
+{% endblock title %}
+
+{% block content %}
+
+{% load static %}
+
+<section class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Ajouter Permission</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    {% url 'add_permission_save' as action_path %}
+                    {% include 'admin/form_template.html' with messages=messages form=form action_path=action_path button_text="Ajouter Permission" %}
+
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+
+  {% endblock content %}
+
+  {% block custom_js %}
+    {% comment %} Checking if email and username already exists or not usin Ajax {% endcomment %}
+
+
+
+  {% endblock custom_js %}

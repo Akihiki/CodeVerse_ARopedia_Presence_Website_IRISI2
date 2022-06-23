@@ -1,0 +1,155 @@
+{% extends 'admin/base-home.html' %} 
+{% block title %} Gestion des Utilisateurs {% endblock title %} 
+{% block content %} 
+{% load static %}
+
+<section class="content">
+    <div class="content-wrapper mt-5">
+         {% if messages %}
+         <div class="form-group">
+            <div class="col-12">
+                {% for message in messages %} 
+                    {% if message.tags == "error" %}
+                        <div
+                            class="alert alert-danger alert-dismissible fade show"
+                            role="alert"
+                            style="margin-top: 10px;">
+                            {{ message }}
+                            <button
+                                type="button"
+                                class="close"
+                                data-dismiss="alert"
+                                aria-label="Close"
+                            >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% elif message.tags == "success" %}
+                        <div
+                        class="alert alert-success alert-dismissible fade show"
+                        role="alert"
+                        style="margin-top: 10px;"
+                        >
+                        {{ message }}
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="alert"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    {% endif %} 
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    <div class="row">
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card">
+        <div class="card-header bg-white">
+            <h3 class="card-title">Liste des Utilisateur ({{ all_users_count }})</h3>
+
+            <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <input
+                type="text"
+                name="table_search"
+                class="form-control float-right"
+                placeholder="Search"
+                />
+
+                <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                    <i class="fas fa-search"></i>
+                </button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+            {% if users is None or users.count == 0 %}
+                <h3 class="col-md-12 text-center text-danger">Aucun Professeur trouvé dans votre Base de données !</h3>
+            {% else %}
+                <table class="table table-Light text-nowrap">
+                <thead class="text-info">
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                        <th>Nom d'utilisateur</th>
+                        <th>Adresse Email</th>
+                        <th>Date de creation</th>
+                        <th>Type Utilisateurs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.date_joined }}</td>
+                        <td>
+                            {% if user.user_type == "2" %}
+                                <a href="{% url 'manage_professeur' %}" class="btn btn-warning">Professeur</a>
+                            {% elif user.user_type == "1" %}
+                                <a href="" class="btn btn-danger">Admin</a>
+                            {% elif user.user_type == "3" %}
+                                <a href="{% url 'manage_student' %}" class="btn btn-success">Etudiant</a>
+                            {% else %}
+                                <p>{{ user.user_type }}</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            {% endif %}
+            <div class="clearfix">
+                {% if users.has_other_pages %}
+                    <ul class="pagination" style="float:right; margin: 30px;">
+                        {% if users.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ users.previous_page_number }}">Precedent</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Precedent</span>
+                            </li>
+                        {% endif %}
+                        {% for i in users.paginator.page_range %}
+                            {% if users.number == i %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if users.has_next %}
+                            <li class="page-item ">
+                                <a class="page-link" href="?page={{ users.next_page_number }}">Suivant</a>
+                            </li>
+                        {% else %}
+                            <li class="disabled page-item">
+                                <span class="page-link">Suivant</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+            {% endif %}
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+</div>
+<!-- /.container-fluid -->
+</section>
+{% endblock content %}

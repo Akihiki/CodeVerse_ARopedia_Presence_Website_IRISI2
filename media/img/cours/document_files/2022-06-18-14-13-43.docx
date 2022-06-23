@@ -1,0 +1,172 @@
+{\rtf1\fbidis\ansi\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Calibri;}{\f1\fmodern\fcharset0 JetBrains Mono;}{\f2\fnil\fcharset0 @Microsoft YaHei;}{\f3\fnil\fcharset0 Gadugi;}}
+{\colortbl ;\red204\green120\blue50;\red169\green183\blue198;\red255\green198\blue109;\red106\green135\blue89;\red152\green118\blue170;\red104\green151\blue187;\red255\green0\blue0;\red51\green51\blue51;\red0\green0\blue0;\red0\green77\blue187;\red128\green128\blue128;\red209\green99\blue73;\red192\green80\blue77;\red255\green255\blue255;}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\ltrpar\sa200\sl276\slmult1\f0\fs22\lang12 RMI\lang3081  code tp:Echo Class:-----------------------\par
+
+\pard\box\brdrdash\brdrw0 \ltrpar\sa200\sl276\slmult1\cf1\f1\fs20 import \cf0 java.rmi.Naming\cf1 ;\line import \cf0 java.rmi.registry.LocateRegistry\cf1 ;\line\line public class \cf0 EchoClien\cf2 t \{\line     \cf1 public static void \cf3 main\cf0 (String args[])\{String url\cf2 =\cf4 "rmi://localhost/irisi"\cf1 ;\line     try\cf2\{\cf0 Echo od=(Echo)Naming.\i lookup\i0 (url);System.\i out\i0 .println(od.echo(\cf4 "Message "\cf2 ))\cf1 ;\line         \cf2\}\cf1 catch\cf2 (Exception e)\{\cf0\line             System.\i out\i0 .println("Serveur Introuvble");\}\}\}\cf2\par
+
+\pard\ltrpar\sa200\sl276\slmult1\cf0\f0\fs22 Echo IMpl:-----------------------\par
+
+\pard\box\brdrdash\brdrw0 \ltrpar\sa200\sl276\slmult1\cf1\f1\fs20 import \cf0 java.rmi.RemoteException\cf1 ;\line import \cf0 java.rmi.server.UnicastRemoteObject\cf1 ;\line public class \cf0 EchoImpl \cf1 extends \cf0 UnicastRemoteObject \cf1 implements \cf0 Echo \cf2\{\line     \cf1 private static final long \cf5\i serialversionUID\cf2\i0 =\cf6 1L\cf1 ;\line     protected \cf3 EchoImpl\cf2 () \cf1 throws \cf0 RemoteException \cf2\{\line     \}\line     \cf1 public \cf0 String \cf3 echo \cf2 (\cf0 String str\cf2 ) \cf1 throws \cf0 RemoteException\cf2\{\line         \cf1 return \cf4 "Le serveur Repond au : "\cf2 +str\cf1 ;\}\}\cf2\par
+\cf0\f2 EchoAppliServer:----------------------\par
+\f1 import java.rmi.Naming;\line import java.rmi.registry.LocateRegistry;\line public class EchoAppliServer \{\line     public static void main(String args[])\{\line         try\{\line             EchoImpl objetDist = new EchoImpl();\line             LocateRegistry.\cf7\i createRegistry\cf0\i0 (1099);\line             Naming.\cf7\i rebind\cf0\i0 ("irisi",objetDist);\line             System.\i out\i0 .println("l objet distant (objetDist) est enregist\'e9");\line         \}catch(Exception e)\{\line             System.\i out\i0 .println("Serveur non lanc\'e9");\}\}\}\par
+\f2\fs22 Client:-------------------------\par
+\cf8\f1\fs20 import java.rmi.Naming;\line import java.rmi.registry.LocateRegistry;\line public class EchoClient \{\line     public static void main(String args[])\{\line         String url="rmi://localhost/irisi";\line         try\{\line             Echo od=(Echo) \cf7 Naming\cf8 .\cf7\i lookup\cf8\i0 (url);\line             System.\i out\i0 .println(od.echo("Message du Client"));\line         \}catch(Exception e)\{\line             System.\i out\i0 .println("Serveur Introuvble");\}\}\}\par
+\cf0\f2\fs22 ########################INET ADRESS#######################\par
+
+\pard\box\brdrdash\brdrw0 \ltrpar\sa200\sl240\slmult1\f3\fs20 import java.net.InetAddress;\par
+import java.net.UnknownHostException;\par
+import java.util.ArrayList;\par
+import java.util.List;\par
+
+\pard\box\brdrdash\brdrw0 \ltrpar\sa200\sl276\slmult1\cf9\f1 public class OtherHostName \{\par
+
+\pard\box\brdrdash\brdrw0 \ltrpar\ri-1440\sa200\sl276\slmult1  public static String getHostName(String name) \{\line         String Machine;\line         InetAddress ipAddr;\line         try \{\line             ipAddr=InetAddress.getByName(name);\line //\tab\tab Machine=ipAddr.getHostAddress();\line             Machine=ipAddr.getAddress().toString();\line         \}catch(UnknownHostException ex) \{\line             Machine="unkown machine ";\line         \}\line         return "la machine "+name +" a pour adress ip : "+ Machine;\line     \}\par
+//get local \par
+
+\pard\box\brdrdash\brdrw0 \ltrpar\ri-1440\sa200\sl240\slmult1 InetAddress ipAddr;\par
+\tab try \{ipAddr=InetAddress.getLocalHost();\par
+\tab\tab myLocalMachine=ipAddr.toString();\par
+//\line     public static List<String>  getAllHostAdress(String name) \{\line         List<String> machine = new ArrayList<>();\line         InetAddress[] ipAddr;\line         try \{\line             ipAddr=InetAddress.getAllByName(name);\line             for (InetAddress adr : ipAddr) \{\line                 machine.add(adr.getHostAddress());\line             \}\line         \}catch(UnknownHostException ex) \{\line             machine.add("unkown machine ");\line         \}\line         return machine;\line     \}\line\}\par
+
+\pard\box\brdrdash\brdrw0 \ltrpar\sa200\sl276\slmult1\cf0\f2\fs22 ######################UDP###########################\par
+Server:=------------------------------------------------------\par
+\cf9\f1\fs20 import java.io.File;\line import java.io.FileInputStream;\line import java.io.FileOutputStream;\line import java.io.IOException;\line import java.net.DatagramPacket;\line import java.net.DatagramSocket;\line import java.net.InetAddress;\line\line public class Server \{\line\tab static DatagramSocket \i ds\i0 ;\line\tab static FileOutputStream \i fos\i0 ;\line\tab public static  void recept(int port ,String host) \{\line\tab\tab byte [] tompon =new byte[1024];\line\tab\tab InetAddress ipAddr;\line\tab\tab try\line\tab\tab\{\line\tab\tab\tab ipAddr=InetAddress.getByName(host);\line\tab\tab\tab DatagramSocket mysock=new DatagramSocket(port,ipAddr);\line\tab\tab\tab DatagramPacket mypacket=new DatagramPacket(tompon,tompon.length);\line\tab\tab\tab mysock.receive(mypacket);\line\tab\tab\tab System.out.println("le serveur recoit les donnees de la part du "+mypacket.getSocketAddress());\line\tab\tab\tab System.out.println("il a recu:\\" "+new String(mypacket.getData())+"  \\" .");\line\tab\tab\}\line\tab\tab catch(IOException e) \{\line\tab\tab\}\line\tab\}\line\tab public static  void receptFile(int port ,String host) \{\line\tab\tab byte [] tompon =new byte[65024];\line\tab\tab InetAddress ipAddr; \line\tab\tab FileOutputStream fis;\line\tab\tab try\line\tab\tab\{\line\tab\tab\tab ipAddr=InetAddress.getByName(host);\line\tab\tab\tab DatagramSocket mysock=new DatagramSocket(port,ipAddr);\line\tab\tab\tab DatagramPacket mypacket=new DatagramPacket(tompon,tompon.length);\line\tab\tab\tab fis=new FileOutputStream("C:\\\\Users\\\\hp\\\\Downloads\\\\Received.pdf");\line //\tab\tab\tab fis.write(tompon);\line\tab\tab\tab mysock.receive(mypacket);\line\tab\tab\tab System.out.println("received ");\line\tab\tab\tab fis.write(mypacket.getData());\line //\tab\tab\tab System.out.println("le serveur recoit les donnees de la part du "+ddress());\line\tab\tab\tab System.out.println("il a recu:\\" "+new String(mypacket.getData())+"  \\" .");\line\tab\tab\tab\tab\tab\tab mysock.close();\line\tab\tab\tab fis.close();\line\tab\tab\}\line\tab\tab catch(IOException e) \{\line\tab\tab\}\line\tab\}\line\tab public static void receivePDF() \{\line\tab\tab byte[] tampon = new byte[65024];\line\line\tab\tab try \{\line\line\tab\tab\i fos \i0 = new FileOutputStream(new File("C:\\\\Users\\\\hp\\\\Downloads\\\\Received.pdf"));\line\tab\tab\i ds \i0 = new DatagramSocket(1234);\line\tab\tab DatagramPacket dp = new DatagramPacket(tampon, tampon.length);\line\tab\tab System.out.println("Le serveur vient de recevoir un packet de : " + dp.getSocketAddress());\line\tab\tab\i ds\i0 .receive(dp);\line\tab\tab\i fos\i0 .write(dp.getData());\line\tab\tab System.out.println("Le message reu est : " + new String(dp.getData()));\line\tab\tab\i fos\i0 .close();\line\tab\tab\} catch (Exception e) \{\line\tab\tab e.printStackTrace();\line\tab\tab\}\line\tab\tab\} // Fin receivePDF\line\line\tab public static void main(String[] args)\line\tab\{ \line\tab\tab System.out.println("RECEPTION ....");\line\tab\tab\i receivePDF\i0 ();\line Server.\i receptFile\i0 (1000, "127.0.0.1");\line\tab\}\line\}\par
+\cf0\f2\fs22 Client----------------------------------------------------------------\par
+\cf9\f1\fs20 import java.io.ByteArrayInputStream;\line import java.io.ByteArrayOutputStream;\line import java.io.FileInputStream;\line import java.io.FileNotFoundException;\line import java.io.IOException;\line import java.io.PrintStream;\line import java.net.DatagramPacket;\line import java.net.DatagramSocket;\line import java.net.InetAddress;\line\line public class Client \{\line\tab static DatagramSocket \i ds\i0 ;\line public static  void envoyer(int port ,String host,String msg) \{\line\tab byte [] tompon =msg.getBytes();\line\tab InetAddress ipAddr; \line\tab try\line\tab\{ ipAddr=InetAddress.getByName(host);\line\tab\tab DatagramSocket mysock=new DatagramSocket();\line\tab\tab DatagramPacket mypacket=new DatagramPacket(tompon,tompon.length,ipAddr,port);\line\tab\tab mysock.send(mypacket);\line\tab\tab System.out.println("Envoyer   "+msg +"a  "+ host);\line\tab\}\line\tab catch(IOException e) \{\line\tab\}\line\}\line public static void EnvoyerFile(String path, String host, int port) \{\line\tab FileInputStream fis;\line\tab\line\tab try \{\line\tab\tab fis=new FileInputStream(path);\line\tab\line\tab byte[]buffer =new byte[65024];\line\tab ByteArrayOutputStream b=new ByteArrayOutputStream();\line\tab fis.read(buffer);\line\tab b.write(buffer);\line\tab DatagramSocket mysock=new DatagramSocket();\line\tab InetAddress ipAddr=InetAddress.getByName(host);\line\tab DatagramPacket mypacket=new DatagramPacket(buffer,buffer.length,ipAddr,port);\line\tab fis.close();\line\tab mysock.send(mypacket);\line\line\} catch (FileNotFoundException e) \{\line\tab\tab // \i TODO Auto-generated catch block\line\tab\tab\i0 e.printStackTrace();\line\tab\} catch (IOException e) \{\line\tab // \i TODO Auto-generated catch block\line\tab\i0 e.printStackTrace();\line\}\line\line\tab\line\tab\line\tab\line\tab\line\}\line public static void envoiPDF(String host, int port, String chemin) \{\line FileInputStream fis;\line InetAddress adr;\line try \{\line fis = new FileInputStream(chemin);\line byte[] clientBuffer = new byte[65024];\line ByteArrayOutputStream baos = new ByteArrayOutputStream();\line fis.read(clientBuffer);\line baos.write(clientBuffer);\line\i ds \i0 = new DatagramSocket();\line adr = InetAddress.getByName(host);\line DatagramPacket dp = new DatagramPacket(clientBuffer, clientBuffer.length, adr, port);\line fis.close();\line System.out.println("Le serveur vient d'envoyer un PDF  : " + adr.toString());\line\i ds\i0 .send(dp);\line System.out.println("Le fichier est envoy");\line\} catch (Exception e) \{\line e.printStackTrace();\line\}\line\line\} // Fin envoiPDF\line\line\line public static void main(String[] args)\line\{ \line //\tab\line //Client.envoyer(1000, "127.0.0.1", "hi khadija");\line\tab String path = "C:\\\\Users\\\\hp\\\\Downloads\\\\test.pdf";\line\line\tab System.out.println("ENVOI ....");\line\line\tab String host = "localhost";\line\tab int port = 1234;\line\tab String msg = "Bonjour";\line\tab\i envoiPDF\i0 (host, port, path);\line Client.\i EnvoyerFile\i0 ("C:\\\\Users\\\\hp\\\\Downloads\\\\test.pdf", "127.0.0.1",1000);\line\}\line\}\line ######################################SOCKET TCP#######################\par
+@@@@@@@@@@@@SEND SCREEN@@@@@@@@@@@@@@@@@@@@@@@@@@@@\par
+
+\pard\box\brdrdash\brdrw0 \ltrpar\sa200\sl240\slmult1\cf8 import java.awt.AWTException;\line import java.awt.Dimension;\line import java.awt.HeadlessException;\line import java.awt.MouseInfo;\line import java.awt.Point;\line import java.awt.Rectangle;\line import java.awt.Robot;\line import java.awt.Toolkit;\line import java.awt.image.BufferedImage;\line import java.io.ByteArrayOutputStream;\line import java.io.DataInputStream;\line import java.io.DataOutputStream;\line import java.io.IOException;\line import java.io.InputStream;\line import java.io.ObjectOutputStream;\line import java.io.OutputStream;\line import java.io.PrintStream;\line import java.net.Socket;\line import java.nio.ByteBuffer;\line import java.util.ArrayList;\line import java.util.List;\line import javax.imageio.ImageIO;\line public class client \{\line\tab Socket sock=null;\line\tab   public void connexion(String host, int port) \line\tab   \{ try\line\tab     \{ \tab System.out.println("Le client cherche  se connecter au serveur " + host + "@"+port);\line\tab     \tab sock = new Socket(host, port);\line\tab     \tab System.out.println("Le client s'est connect sur serveur " + host + "@"+port);\line\tab     \}\line\tab     catch(IOException e) \{ \}\line\tab   public void sendScreen() \{\line\tab\tab   \tab\tab\tab Dimension sizeScreen= Toolkit.getDefaultToolkit().getScreenSize();\line\tab\tab   \tab\tab\tab int width = (int)sizeScreen.getWidth();\line\tab\tab   \tab\tab\tab int height = (int)sizeScreen.getHeight();\line\tab\tab\tab\tab\tab Point p = MouseInfo.getPointerInfo().getLocation();\line\tab\tab   \tab\tab\tab double CoeffHC=height/p.getX();\line\tab\tab\tab\tab\tab double CoeffWC=width/p.getY();\line\tab\tab\tab\tab\tab System.out.println("transmetter  Screen resolution : " + "width : " + width + " height : " + height);\line\tab\tab\tab\tab\tab OutputStream out;\line\tab\tab\tab try \{\line\tab\tab\tab\tab PrintStream output=new PrintStream(sock.getOutputStream());\line\tab\tab\tab\tab output.println(CoeffHC);\line\tab\tab\tab\tab output.println(CoeffWC);\line\tab\tab\tab\tab output.println(p.getX());\line\tab\tab\tab\tab output.println(p.getY());\line\tab\tab\tab\tab output.flush();\line\tab\tab\tab\tab output.close();\tab      \line\tab\tab\tab\tab out = sock.getOutputStream();\line\tab\tab\tab     InputStream sInFromServer = sock.getInputStream();\line\tab\tab\tab     DataInputStream in = new DataInputStream(sInFromServer);\line\tab\tab\tab     //Takes screenshot \line\tab\tab         BufferedImage screencap = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));\line\tab\tab         ByteArrayOutputStream baos = new ByteArrayOutputStream();\line\tab\tab         ImageIO.write(screencap,"jpg",baos);\line\tab\tab         //Gets screenshot byte size and sends it to server and flushes then closes the connection\line\tab\tab         byte[] size = ByteBuffer.allocate(4).putInt(baos.size()).array();\line\tab\tab         out.write(size);\line\tab\tab         out.write(baos.toByteArray());\line\tab\tab         out.flush();\line\tab\tab         out.close(); \line\tab\tab         \line\tab\tab\tab\} catch (IOException | HeadlessException | AWTException e) \{\line\tab\tab\tab\tab // \i TODO Auto-generated catch block\line\tab\tab\tab\tab\i0 e.printStackTrace();\}\}\line\tab   public void fermer()\{\line\tab   \tab     try\{ \line\tab   \tab     \tab System.out.println("Le client ferme la connexion au serveur ");\line\tab   \tab     \tab sock.close();\line\tab   \tab\tab\tab\}\line\tab   \tab\tab catch(IOException e)\{\}\}\}\line class \cf10 pointer \cf8\{\line\tab double x;\line\tab double y;\line\tab pointer(double x,double y)\{\line\tab\tab this.x=x;\line\tab\tab this.y=y;\line\tab\}\line\}\par
+SERVER--------------------------\par
+import java.awt.AlphaComposite;\line import java.awt.Dimension;\line import java.awt.Graphics2D;\line import java.awt.Toolkit;\line import java.awt.image.BufferedImage;\line import java.io.BufferedReader;\line import java.io.ByteArrayInputStream;\line import java.io.DataInputStream;\line import java.io.DataOutputStream;\line import java.io.File;\line import java.io.IOException;\line import java.io.InputStream;\line import java.io.InputStreamReader;\line import java.io.ObjectInputStream;\line import java.net.ServerSocket;\line import java.net.Socket;\line import java.nio.ByteBuffer;\line import java.util.ArrayList;\line import java.util.List;\line import javax.imageio.ImageIO;\line import javax.swing.JFrame;\line public class server  extends Thread\line\{ ServerSocket serveur;\line static final int \i port\i0 =10000;\line public server()\line\{ try\line   \{ serveur=new ServerSocket(\i port\i0 );\line   System.out.println("-----------Le serveur est en coute sur le "+\i port\i0 );\line\tab this.start();\}\line   catch(IOException e) \{ System.exit(1); \}\}\line\line public void run()\line\{ Socket sock;\line  // Traitement t;\line  String text;\line   try\line   \{ while(true)\line     \{ \line     \tab System.out.println("-----------Le serveur est en attente ");\line     \tab sock=serveur.accept();\line       System.out.println("-----------Le serveur a accept la connexion avec "+sock.getInetAddress());\line       this.receiveScreen(sock);\line     \}\line   \}\line   catch(IOException e) \{ \}\line\}\line public void receiveScreen(Socket sock) \{\line DataInputStream in;\line Dimension sizeScreen= Toolkit.getDefaultToolkit().getScreenSize();\line // width will store the width of the screen\line int width = (int)sizeScreen.getWidth();\line // height will store the height of the screen\line int height = (int)sizeScreen.getHeight();\line int serverScreenW=1000;\line int serverScreenH=2000;\line BufferedReader d;\line double posCurX,posCurY;\line\tab try \{\line\tab\tab d = new BufferedReader(new InputStreamReader(sock.getInputStream()));\line        double tab[] = new double[4];\line        int index=0;\line\tab\tab for (String line; (line = d.readLine()) != null;) \{\line             tab[index]=Double.parseDouble(line);\line             index++;\}\tab\tab\line         System.out.println("cursor position client" +tab[2]+"  "+tab[3]);\line     in = new DataInputStream(sock.getInputStream());\line     DataOutputStream out = new DataOutputStream(sock.getOutputStream());\line     byte[] sizeAr = new byte[4];\line     in.read(sizeAr);\line     int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();\line //    int length = in.readInt();\line     byte[] imageAr = new byte[size];\line     in.readFully(imageAr);\line     BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageAr));\line //we can specify any size to try if the scaling works\line     BufferedImage i=this.createResizedCopy(image, serverScreenW, serverScreenH, true);\line     System.out.println("cursor position server x= "+(serverScreenH/tab[0])+" "+"y= "+(serverScreenW/tab[1]) );\line     System.out.println("check the screen in Downloads//scaledScreen.png");\line     ImageIO.write(i, "jpg", new File("C:\\\\Users\\\\hp\\\\Downloads\\\\scaledScreen.png"));\line\tab\} catch (IOException e) \{\line\tab\tab // \i TODO Auto-generated catch block\line\tab\tab\i0 e.printStackTrace();\line\tab\}\line\}\line public BufferedImage createResizedCopy(BufferedImage originalImage, \line         int scaledWidth, int scaledHeight, \line         boolean preserveAlpha)\line\{\line     System.out.println("resizing  to receiver screen size... width="+scaledWidth+" Height="+scaledHeight);\line     int imageType = preserveAlpha ? BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;\line     BufferedImage scaledBI = new BufferedImage(scaledWidth, scaledHeight, imageType);\line     Graphics2D g = scaledBI.createGraphics();\line     if (preserveAlpha) \{\line         g.setComposite(AlphaComposite.Src);\line     \}\line     g.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null); \line     g.dispose();\line     return scaledBI;\line\}\}\par
+Start Client-----------------\par
+client \cf2 c=\cf1 new \cf8 client\cf2 ()\cf1 ;\line\tab   \cf2 c.\cf8 connexion\cf2 (\cf4 "127.0.0.1"\cf1 , \cf10 10000\cf2 )\cf1 ;\line\cf11\tab\tab\cf1 double \cf10 mouseX \cf2 = \cf8 MouseInfo\cf2 .\cf8 getPointerInfo\cf2 ().\cf8 getLocation\cf2 ().\cf10 getX\cf2 ()\cf1 ;\line       double \cf8 mouseY \cf2 = \cf8 MouseInfo\cf2 .\cf8 getPointerInfo\cf2 ().\cf8 getLocation\cf2 ().\cf10 getY\cf2 ()\cf1 ;\line\tab\tab\line\tab   \cf2 c.\cf8 sendScreen\cf2 ()\cf1 ;\line       \cf2 c.\cf8 fermer\cf2 ()\cf1 ;\par
+\cf12\b ------------new server();\cf1\par
+\b0 ####################TCP #############################\par
+CLIENT----------------------\par
+\cf8 import java.io.BufferedReader;\line import java.io.IOException;\line import java.io.InputStream;\line import java.io.InputStreamReader;\line import java.io.PrintStream;\line import java.net.ServerSocket;\line import java.net.Socket;\line import java.net.UnknownHostException;\line public class Client \{\line Socket s;\line public Client(int port,String host) \{\line\tab try\line     \{ \tab System.out.println("Le client cherche  se connecter au serveur " + host + "@"+port);\line     \tab s = new Socket(host, port);\line     \tab System.out.println("Le client s'est connect sur serveur " + host + "@"+port);\line     \}\line     catch(IOException e) \{ \}\line\}\line void requete(String msg) \{\line\tab  try\{\line\tab   \tab  \tab System.out.println("Le client cherche  rcuprer le canal de communication ");\line\tab   \tab  \tab PrintStream output=new PrintStream(s.getOutputStream());\line\tab   \tab  \tab System.out.println("Le client cherche  envoyer la donne au serveur " );\line\tab   \tab  \tab output.println(msg);\line\tab   \tab  \}\line\tab   \tab  catch(IOException e)\{\line\tab   \tab  \}\line\}\line public void recevoir()\{\line  \tab  try\{\line  \tab\tab System.out.println("Le client cherche  rcuprer le canal de communication ");\line  \tab\tab BufferedReader entree=new BufferedReader(new InputStreamReader(s.getInputStream()));\line        String text=entree.readLine();\line      \tab System.out.println("j'ai recu "+text);\line      \}\line  \tab  catch(IOException e)\{\line  \tab  \}\line  \}\line public void fermer()\{\line\tab     try\{ \line\tab     \tab System.out.println("Le client ferme la connexion au serveur ");\line\tab     \tab s.close();\line\tab\tab\tab\}\line\tab\tab catch(IOException e)\{\}\}\}\par
+ public void \cf7 envoiFileByte\cf8 (String path)\{\par
+try\{ FileInputStream fs=new FileInputStream(path);\par
+byte b[]=new byte[1000000];\par
+fs.read(b,0,b.length);\par
+PrintStream pr=new PrintStream(sock.getOutputStream());\par
+pr.write(b, 0, b.length);\}\tab  catch(IOException e)\{\}\}\par
+\cf13 SERVER----------------------------------\cf8\line\line import java.io.BufferedReader;\line import java.io.IOException;\line import java.io.InputStream;\line import java.io.InputStreamReader;\line import java.io.PrintStream;\line import java.net.ServerSocket;\line import java.net.Socket;\line public class Serveur \{\line     \cf7 ServerSocket \cf8 ss;\line\tab public Serveur(int port) \{\line\tab\tab try \{\line\tab\tab\tab this.ss = new ServerSocket(port);\line\tab\tab\} catch (IOException e) \{\line\tab\tab\tab // \i TODO Auto-generated catch block\line\tab\tab\tab\i0 e.printStackTrace();\}\}\line     public void servir() \{\line     \tab Socket sock;\line     \tab    String text;\line     \tab System.out.println("Le serveur est en attente ");\line     \tab try \{\line       \tab sock=ss.accept();\line         System.out.println("Le serveur a accept la connexion avec "+sock.getInetAddress());\line       //t=new Traitement(sock);\line         BufferedReader entree= new BufferedReader(new InputStreamReader(sock.getInputStream()));\line         text=entree.readLine();\line         System.out.println(text);\line         System.out.println("Le client cherche  rcuprer le canal de communication ");\line   \tab  \tab PrintStream sortie=new PrintStream(sock.getOutputStream());\line   \tab  \tab System.out.println("Le client charche  envoyer la donne au serveur " );\line   \tab  \tab sortie.println(text+" a ete recu par le serveur");\line\tab\tab sock.close();\}\line     \tab catch(IOException e) \{\line\tab\tab\tab e.printStackTrace();\}\par
+\line\line  public void \cf7 receiveByteFile\cf8 (Socket sock) \{\par
+\tab    InputStream in ;OutputStream out ; \par
+\tab    try \{sleep(10000);\par
+\tab\} catch (InterruptedException e) \{\par
+\tab e.printStackTrace();\}\tab // takes input from the client socket \par
+\tab   try \{in = new DataInputStream(sock.getInputStream());\par
+\tab //writes on client socket\par
+\tab    out = new DataOutputStream(sock.getOutputStream());\par
+\tab    // Receiving data from client\par
+\tab    ByteArrayOutputStream baos = new ByteArrayOutputStream();\par
+\tab    byte buffer[] = new byte[1024];\par
+\tab  baos.write(buffer, 0 , in.read(buffer));\par
+\tab System.out.println("------------byte file"); \par
+\tab    byte result[] = baos.toByteArray();\par
+\tab    FileOutputStream fs = new FileOutputStream(new File("C:\\\\Users\\\\hp\\\\Downloads\\\\received.png"));\par
+\tab    BufferedOutputStream  bs = new BufferedOutputStream(fs);\par
+\tab bs.write(buffer);bs.close(); bs=null;\par
+\tab    String res = Arrays.toString(result);out.write(result);\par
+\tab    System.out.println("------------Closing connection"); \par
+\tab\tab sock.close();\par
+\tab\} catch (IOException e) \{\par
+\tab\tab // TODO Auto-generated catch block\par
+\tab\tab e.printStackTrace();\}\}\par
+##################################################################\par
+\cf0 Sockets and threads:\par
+ou will see that the second client cannot be connected until the first client closes its connection. To allow simultaneous connections we should know multithreaded programming. Here in the following Multithreaded Socket Programming , you can connect more than one client connect to the server and communicate.\par
+How it works?\par
+For each client connection, the server starts a child thread to process the request independent of any other incoming requests.\par
+\par
+\cf14\highlight9 Main\cf0\highlight0 :\par
+import java.net.*;\par
+import java.io.*;\par
+public class MultithreadedSocketServer \{\par
+  public static void main(String[] args) throws Exception \{\par
+    try\{ ServerSocket server=new ServerSocket(8888);int counter=0;\par
+      System.out.println("Server Started ....");\par
+      while(true)\{counter++;\par
+        Socket serverClient=server.accept();  //server accept the client connection request\par
+        System.out.println(" >> " + "Client No:" + counter + " started!");\par
+        ServerClientThread sct = new ServerClientThread(serverClient,counter); //send  the request to a separate thread\par
+        sct.start();\}    \}catch(Exception e)\{\par
+      System.out.println(e);\par
+\}\}\}\par
+\cf8 -------------------SERVER SIDE----------------\par
+class ServerClientThread extends Thread \{\par
+  Socket serverClient;int clientNo;int squre;\par
+  ServerClientThread(Socket inSocket,int counter)\{\par
+    serverClient = inSocket;\par
+    clientNo=counter;\}\par
+  public void run()\{try\{\par
+      DataInputStream inStream = new DataInputStream(serverClient.getInputStream());\par
+      DataOutputStream outStream = new DataOutputStream(serverClient.getOutputStream());\par
+      String clientMessage="", serverMessage="";\par
+      while(!clientMessage.equals("bye"))\{\par
+        clientMessage=inStream.readUTF();\par
+        System.out.println("From Client-" +clientNo+ ": Number is :"+clientMessage);\par
+        squre = Integer.parseInt(clientMessage) * Integer.parseInt(clientMessage);\par
+        serverMessage="From Server to Client-" + clientNo + " Square of " + clientMessage + " is " +squre;\par
+        outStream.writeUTF(serverMessage);\par
+        outStream.flush();\}\par
+      inStream.close();outStream.close(); serverClient.close();\par
+    \}catch(Exception ex)\{System.out.println(ex);\par
+    \}finally\{\par
+      System.out.println("Client -" + clientNo + " exit!! ");\}\}\}\par
+
+\pard\box\brdrdash\brdrw0 \ltrpar\sa200\sl276\slmult1\par
+\f2\fs22 Client ---------------\par
+import java.net.*;import java.io.*;\par
+public class TCPClient \{\par
+  public static void main(String[] args) throws Exception \{try\{\par
+    Socket socket=new Socket("127.0.0.1",8888);\par
+    DataInputStream inStream=new DataInputStream(socket.getInputStream()); DataOutputStream outStream=new DataOutputStream(socket.getOutputStream());\par
+   BufferedReader br=new BufferedReader(new InputStreamReader(System.in));\par
+    String clientMessage="",serverMessage="";\par
+    while(!clientMessage.equals("bye"))\{\par
+      System.out.println("Enter number :");clientMessage=br.readLine();\par
+      outStream.writeUTF(clientMessage);outStream.flush();\par
+      serverMessage=inStream.readUTF(); System.out.println(serverMessage);\}\par
+    outStream.close();outStream.close(); socket.close();\par
+  \}catch(Exception e)\{System.out.println(e);\}\}\}\par
+\par
+################MULTI CASST##############\par
+\fs12 The following code contains a program that creates a multicast socket that receives datagram packets addressed to the 230.1.1.1 multicast IP address\fs22 .\par
+\fs20 import java.io.IOException; \par
+import java.net.DatagramPacket; \par
+import java.net.InetAddress; \par
+import java.net.MulticastSocket; \par
+public class UDPMultiCastReceiver \{ \par
+    public static void main(String[] args) \{ \par
+        int mcPort = 18777; \par
+        InetAddress mcIPAddress = InetAddress.getByName("230.1.1.1"); \par
+        try (MulticastSocket  mcSocket = new MulticastSocket(mcPort); )\{ \par
+      System.out.println("Multicast Receiver running at:" +mcSocket.getLocalSocketAddress()); \par
+            // Join the group \par
+            mcSocket.joinGroup(mcIPAddress);             DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);             while (true) \{ \par
+                System.out.println("Waiting for a multicast message...");    mcSocket.receive(packet); \par
+                String msg = new String(packet.getData(),packet.getOffset(), packet.getLength()); \par
+                System.out.println("[Multicast Receiver] Received:" + msg); \}            mcSocket.leaveGroup(mcIPAddress); \par
+        \} catch (Exception e) \{  e.printStackTrace(); \}\}\}\par
+---------------------------\par
+The following code contains a program that sends a message to the same multicast address.\par
+You can run multiple instances of the UDPMulticastReceiver class and all of them will become a member of the same multicast group.\par
+import java.net.DatagramPacket; \par
+import java.net.DatagramSocket; \par
+import java.net.InetAddress; \par
+public class UDPMultiCastSender \{ \par
+    public static void main(String[] args) \{ \par
+        int mcPort = 18777; String mcIPStr = "230.1.1.1"; \par
+        try( DatagramSocket udpSocket = new DatagramSocket();  ) \{ \par
+            // Prepare a message \par
+            InetAddress mcIPAddress = InetAddress.getByName(mcIPStr);             byte[] msg = "Hello multicast socket".getBytes(); \par
+            DatagramPacket packet = new DatagramPacket(msg, msg.length); \par
+            packet.setAddress(mcIPAddress); \par
+            packet.setPort(mcPort); /*  ww    w.  d   e  m   o 2 s    . c o   m */\par
+            udpSocket.send(packet); System.out.println("Sent a multicast message."); System.out.println("Exiting application"); \par
+        \} catch (Exception e) \{ e.printStackTrace(); \}\}\}\par
+}
+ 

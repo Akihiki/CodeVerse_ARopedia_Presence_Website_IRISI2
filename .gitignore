@@ -1,0 +1,15 @@
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+.DS_Store
+
+.env
+venv/
+.secrets.sh
+.idea/
+.vscode
+virenv/
+djangoEnv/
+# */migration

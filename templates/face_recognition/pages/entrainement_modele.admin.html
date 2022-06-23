@@ -1,0 +1,189 @@
+<!--
+    EQUIPE   :  CodeVerse et ARopedia
+    @authors :  + KANNOUFA F. EZZAHRA
+                + MOUZAFIR ABDELHADI
+-->
+
+
+{% extends 'admin/base-home.html' %}
+
+{% load static %}
+
+{% block title %}
+    Gestion de présence
+{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xl-7 col-md-8 mb-4">
+            <div class="card border-left-primary shadow h-100 py-1">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+
+                        <div class="col-auto">
+                            <i class="fas fa-robot fa-3x text-primary"></i>
+                        </div>
+
+                        <div class="col ml-4">
+                            <div class="text-lg font-weight-bold text-primary text-uppercase mt-1"> Entrainement des
+                                modèles pour la reconnaissance faciale
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-8 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">A propos</h6>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <img class="img-fluid px-3 px-sm-4" style="width: 30rem;" src="{% static 'images/img3.jpg' %}">
+                    </div>
+                    <p>
+                        La reconnaissance faciale des étudiants se base sur des modèles entrainés en utilisant leurs
+                        images. Chaque groupe d'un
+                        niveau d'une filière a son propre modèle. Cette page vous aide à générer ces modèles.
+                    </p>
+                    <p>
+                    <div class="text-primary font-weight-bold">Comment faire?</div>
+                    Choisir la filière, le niveau et puis le groupe. Une fois faite cliquer sur le boutton entrainer le
+                    modèle.
+                    </p>
+                    <p>
+                        <i class="fas fa-exclamation fa-1x text-danger"></i> L'entrainement prend un peu de temps, <span
+                            class="text-danger"> ne fermer plus le navigateur avant qu'il soit terminé</span>
+                    </p>
+                    <a target="_blank" rel="nofollow" href="{% url 'manage_student' %}">Vérifier que tous les étudiants
+                        ayant des images, sinon prendre des images pour ceux qui ne les ont pas &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 mb-4">
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Entrainer un modèle</h6>
+                </div>
+            </div>
+            <div id="modele-admin-form" class="flatpickr flex align-items-center">
+                {% csrf_token %}
+                <div class="card border-left-info shadow h-100 py-0 mb-3">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+
+                            <div class="col-auto">
+                                <i class="fas fa-filter fa-2x text-info"></i>
+                            </div>
+
+                            <div class="ml-4">
+                                <div class="h5 font-weight-bold text-info text-uppercase mb-1"> Filière</div>
+                                <div class="dropdown" id="filieres">
+                                    <button class="btn border-info text-lg text-gray-900 dropdown-toggle" type="button"
+                                            id="dropdownFilieres" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                        Filière
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownFilieres" id="filiere-data-box">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-left-warning shadow h-100 py-0 mb-3">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+
+                            <div class="col-auto">
+                                <i class="fas fa-filter fa-2x text-warning"></i>
+                            </div>
+
+                            <div class="ml-4">
+                                <div class="h5 font-weight-bold text-warning text-uppercase mb-1"> Niveau</div>
+                                <div class="dropdown col-3" id="niveaux">
+                                    <button class="btn border-warning text-lg text-gray-900 dropdown-toggle"
+                                            type="button" id="dropdownNiveaux" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                        Niveau
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownNiveaux" id="niveau-data-box">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card border-left-success shadow h-100 py-0 mb-3">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+
+                            <div class="col-auto">
+                                <i class="fas fa-filter fa-2x text-success"></i>
+                            </div>
+
+                            <div class="ml-4">
+                                <div class="h5 font-weight-bold text-success text-uppercase mb-1"> Groupe</div>
+                                <div class="dropdown col-3" id="groupes">
+                                    <button class="btn border-success text-lg text-gray-900 dropdown-toggle"
+                                            type="button" id="dropdownGroupes" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                        Groupe
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownGroupes" id="groupe-data-box">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+{#                <div class="card border-left-success shadow h-100 py-0 mb-3">#}
+{#                    <div class="card-body">#}
+{#                        <div class="row no-gutters align-items-center">#}
+{##}
+{#                            <div class="col-auto">#}
+{#                                <i class="fas fa-filter fa-2x text-success"></i>#}
+{#                            </div>#}
+{##}
+{#                            <div class="ml-4">#}
+{#                                <div class="h5 font-weight-bold text-success text-uppercase mb-1"> Annee Universitaire#}
+{#                                </div>#}
+{#                                <select class="form-select btn border-success text-lg text-gray-900 dropdown-toggle"#}
+{#                                        aria-label="Default select example" id="wikoid" >#}
+{#                                    <option selected value="f">Open this select menu</option>#}
+{#                                    {% for i in list %}#}
+{#                                        <option value="{{ i }}/{{ i|add:1 }}">{{ i }}/{{ i |add:1}}</option>#}
+{#                                    {% endfor %}#}
+{#                                </select>#}
+{#                            </div>#}
+{#                        </div>#}
+{##}
+{#                    </div>#}
+{#                </div>#}
+                <a href="" class="btn btn-lg btn-primary disabled" id="btnBox">Entrainer le modèle</a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+
+    <script src=" {% static 'js/filter_groupe.js' %}"></script>
+{% endblock content %}

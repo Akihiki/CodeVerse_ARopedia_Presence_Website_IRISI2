@@ -1,0 +1,402 @@
+{% extends "admin/base-home.html" %} 
+{% load static %}{% block title %} Filieres
+{% endblock %}
+ 
+<!-- importation des fichier css  -->
+{% block stylesheets %}
+<link href="{% static 'css/filiere.css' %}" rel="stylesheet" />
+<style>
+  .form-select {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+  -moz-padding-start: calc(0.75rem - 3px);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+</style>
+{% endblock stylesheets %} {% block content %}
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header card-header-primary card-header-flex">
+      <div class="card-header">
+        <h4 class="card-title">Table des etablissements</h4>
+        <p class="card-category">La liste des etablissements </p>
+      </div>
+
+      {% comment %} form pour le rechereche du filiere {% endcomment %}
+      <form
+        class="navbar-form col-md-5 adapter"
+        method="POST"
+        action="/filiere_etab/etablissement/search"
+      >
+        {% csrf_token %}
+        <div class="input-group no-border">
+          <input
+            type="text"
+            value=""
+            name="text"
+            class="form-control"
+            placeholder="Recherche..."
+          />
+          <button type="submit" class="btn btn-primary btn-round btn-just-icon">
+            <i class="fas fa-fw fa-search"></i>
+            <div class="ripple-container"></div>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    {% comment %} affichage de la liste des differentes filiere {% endcomment %}
+    <div class="card-body">
+      <div class="table-responsive">
+        {% if data is None or data.count == 0 %}
+        <h3 class="col-md-12" style="color: red">aucune donnée trouvée !</h3>
+        {% else %}
+
+        <table class="table">
+          <thead class="text-primary">
+            <th class="col-md-1">ID</th>
+            <th class="col-md-2">Nom</th>
+            <th class="col-md-2">Adresse</th>
+            <th class="col-md-1">Telephone</th>
+            <th class="col-md-1">Niveau</th>
+            <th class="col-md-1">Site web</th>
+            <th class="col-md-1">Email</th>
+            <th class="col-md-1">LOGO</th>
+            <th class="col-md-1">Modifier</th>
+            <th class="col-md-1">Supprimer</th>
+          </thead>
+          <tbody>
+            <tr></tr>
+            {% for dt in data %}
+            <tr>
+              <td id="ide">{{dt.id}}</td>
+              <td id="nom">{{dt.nom}}</td>
+              <td id="adresse">{{dt.adresse}}</td>
+              <td id="telephone">{{dt.telephone}}</td>
+              <td id="niveau">{{dt.niveau}}</td>
+              <td id="website">{{dt.website}}</td>
+              <td id="email">{{dt.email}}</td>
+              <td class="image">
+                {% if dt.logo %}
+              <img style="width: 60px;height: 46px;border-radius: 3px;" src="{{dt.logo.url}}" alt="" srcset="" />
+             {% else %}
+            <img style="width: 60px;height: 46px;border-radius: 3px;" src="{% static 'img/default.png' %}" />
+            {% endif %}
+                
+              </td>
+              <td>
+                {% comment %} modification de la filiere {% endcomment %}
+                <div
+                class="edit"
+                  data-toggle="modal"
+                  data-target="#eModal"
+                  style="color: blue; cursor: pointer"
+                >
+                  <i class="fas fa-edit"></i>
+                </div>
+              </td>
+              <td>
+                {% comment %} supprission du filiere {% endcomment %}
+                <a
+                  href="/filiere_etab/etablissement/delete/{{dt.id}}"
+                  class="delete"
+                  data-toggle="modal"
+                  data-target="#deleteModal"
+                  style="color: red"
+                  ><i class="fas fa-trash-alt"></i
+                ></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% endif %}
+      </div>
+    </div>
+    <div class="card-header card-add">
+      <button
+        class="btn btn-primary"
+        data-toggle="modal"
+        data-target="#cModal"
+      >
+        Ajouter
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pour la confirmation de supprission  -->
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Avertissement</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">Êtes-vous sûr de supprimer cet élément ?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Annuler
+        </button>
+        <button type="button" id="confirm" class="btn btn-primary btn-red">
+          Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pour la creation  d'un etablissement  -->
+
+<div
+  class="modal fade"
+  id="cModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nouvel établissement</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          method="post"
+          action="/filiere_etab/etablissement/create"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Le nom de l'établissement :</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nom"
+              required
+            />
+          </div>
+          <div class="form-group">
+          <label for="recipient-name" class="col-form-label"
+              >L'adresse de l'établissement :</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              name="adresse"
+              required
+            />
+          </div>
+          <div class="form-group">
+          <label for="recipient-name" class="col-form-label"
+              >Numéro de Téléphone :</label
+            >
+           <input type="tel" name="telephone" placeholder="telephone ... " pattern="[0-9]{10}" maxlength="10" required/>
+          </div>
+          <div class="form-group">
+            <label for="exampleSelect1">Niveau</label>
+            <select name="niveau" class="form-select" id="exampleSelect1">
+              <option>Préscolaire</option>
+              <option>Primaire</option>
+              <option>Secondaire</option>
+              <option>Supérieur</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Adresse email</label>
+            <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Site web</label>
+            <input type="url" name="website" class="form-control" id="exampleInputEmail1" aria-describedby="urlHelp" placeholder="https://" required>
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label"
+              >Le logo de l'etablissement:</label
+            >
+            <input type="file" class="form-control" name="logo" />
+          </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Annuler
+        </button>
+        <button type="submit" class="btn btn-primary">Creer</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pour la  modification d'etablissement  -->
+
+<div
+  class="modal fade"
+  id="eModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modifier établissement</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          method="post"
+          id="editform"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label"
+              >Le nom de l'etablissement :</label
+            >
+            <input
+            id="input-nom"
+              type="text"
+              class="form-control"
+              name="nom"
+              
+            />
+          </div>
+          <div class="form-group">
+          <label for="recipient-name" class="col-form-label"
+              >L'adresse de l'établissement :</label
+            >
+            <input
+            id="input-adresse"
+              type="text"
+              class="form-control"
+              name="adresse"
+              required
+            />
+          </div>
+          <div class="form-group">
+          <label for="recipient-name" class="col-form-label"
+              >Numéro de Téléphone :</label
+            >
+           <input 
+           id="input-telephone"
+           type="tel" name="telephone" placeholder="telephone ... " pattern="[0-9]{10}" maxlength="10"  required/>
+          </div>
+          <div class="form-group">
+            <label for="exampleSelect1">Niveau</label>
+            <select name="niveau"  class="form-select" id="exampleSelect1">
+              <option>Préscolaire</option>
+              <option>Primaire</option>
+              <option>Secondaire</option>
+              <option>Supérieur</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Adresse email</label>
+            <input type="email" name="email" class="form-control" id="input-email" aria-describedby="emailHelp" placeholder="Enter email" required>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Site web</label>
+            <input type="url" name="website" class="form-control" id="input-website"  aria-describedby="urlHelp" placeholder="https://" required>
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label"
+              >Le logo de l'etablissement':</label
+            >
+            <input type="file" class="form-control" name="logo" />
+          </div>
+        
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Annuler
+        </button>
+        <button type="submit" class="btn btn-primary">Modifier</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+
+  // prendre le lien de l'element a supprimer
+  var deleteLinks = document.querySelectorAll(".delete");
+  for (var i = 0; i < deleteLinks.length; i++) {
+    deleteLinks[i].addEventListener("click", function (event) {
+      event.preventDefault();
+      $("#confirm").attr("link", $(this).attr("href"));
+    });
+  }
+
+  // confirmation de supprission
+  $("#confirm").click(function (e) {
+    e.preventDefault();
+    console.log("hehehhehhe")
+    window.location.href = $(this).attr("link");
+  });
+  // placer le nom de la filiere et le lien de table vers la formule
+  $( ".edit" ).each(function(index) {
+  $(this).click(function (e) { 
+  e.preventDefault();
+  $("#input-nom").val($(this).parent().parent().children("#nom").text());
+  $("#input-adresse").val($(this).parent().parent().children("#adresse").text());
+  $("#input-telephone").val($(this).parent().parent().children("#telephone").text());
+  $("#input-email").val($(this).parent().parent().children("#email").text());
+  $("#input-website").val($(this).parent().parent().children("#website").text());
+  $("#editform").attr("action","/filiere_etab/etablissement/edit/"+$(this).parent().parent().children("#ide").text());
+});
+});
+</script>
+{% endblock javascripts %}

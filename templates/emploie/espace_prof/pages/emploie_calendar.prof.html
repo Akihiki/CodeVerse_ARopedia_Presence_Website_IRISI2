@@ -1,0 +1,56 @@
+<!--
+  EQUIPE  : CodeVerse
+  @author : KANNOUFA FATIMA EZZAHRA
+-->
+
+{% extends '../base.html' %}
+
+
+{% load presence_tags %}
+{% load static %}
+
+{% block title %} Emploi du temps {% endblock %}
+
+{% block content %}
+
+  <div class="row">
+    <div class="col-xl-5 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-1">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              
+              <div class="col-auto">
+                <i class="fas fa-calendar-day fa-3x text-primary"></i>
+              </div>
+
+              <div class="col ml-4">
+                <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Emploi du temps </div>
+                <div class="h6 mb-0 font-weight-bold text-gray-800">Professeur : {{user.first_name}} {{user.last_name}} </div>
+              </div>
+              
+            </div> 
+          </div>
+        </div>
+    </div>
+  </div>
+
+
+  <div class="card shadow mb-4">
+    
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"> {% now "l d F Y, H:i" %} </h6>
+    </div>
+    <div class="card-body">
+
+      <div id='calendar'></div>
+      <input type="hidden" value="{%connected_prof_id user%}" id="idProf">
+
+    </div>
+
+  </div>
+
+  <script>
+    
+  </script>
+
+{% endblock %}

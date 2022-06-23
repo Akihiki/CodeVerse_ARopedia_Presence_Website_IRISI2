@@ -1,0 +1,375 @@
+{% extends 'admin/base-home.html' %}
+{% load static %}
+{% block title %}
+    Gestion Elements Module
+{% endblock title %}
+
+{% block content %}
+<link href="{% static 'css/module.css' %}" rel="stylesheet" />
+
+    <div class="content-wrapper mt-5">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2 ">
+                    <div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Elements Module ({{ elem_modules | length }})</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'display_majors' %}" class="text-decoration-none">
+                                    <img src="https://img.icons8.com/color/24/000000/arrow-pointing-left--v2.png"/>
+                                    Retour</a>
+                            </li>
+                        </ol>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+    </div>
+    {% if messages %}
+        <div class="login-box-msg mb-4 ml-4 mt-4 col-12">
+            {% for message in messages %}
+                {% if message.tags == "error" %}<span class="alert alert-danger">{{ message }}</span>{% endif %}
+                {% if message.tags == "success" %}<span class="alert alert-success">{{ message }}</span>{% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="container-xl">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-filter">
+                    <div class="row">
+                        <div class="col">
+                            <form action="{% url 'search_elem_module' %}" method="get">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                                <div class="filter-group">
+                                    <label>Element</label>
+                                    <input type="search" name="q" class="form-control" placeholder="Recherche par un élément">
+                                </div>
+                                </form>
+                            <div class="filter-group">
+                                <label>Filière</label>
+                                <select class="form-control" id="dynamic_select">
+                                    <option value="{% url 'manage_elem_modules' %}">
+                                        Tous
+                                    </option>
+                                    <option value="{% url 'manage_elem_modules' %}">
+                                        Tous
+                                    </option>
+                                    {% for filiere in filieres %}
+                                        <option value="{% url 'search_elem_modules_filiere' name_=filiere.nom_filiere %}">
+                                            {{ filiere.nom_filiere }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Niveau</label>
+                                <select class="form-control" id="dynamic_select1">
+                                    <option value="{% url 'manage_elem_modules' %}">
+                                        Tous
+                                    </option>
+                                    {% for niveau in niveaux %}
+                                        <option value="{% url 'search_elem_modules_niveau' name_=niveau.nom_niveau  %}">
+                                            {{ niveau.nom_niveau }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Semestre</label>
+                                <select class="form-control" id="dynamic_select2">
+                                    <option value="{% url 'manage_elem_modules' %}">
+                                        Tous
+                                    </option>
+                                    {% for semestre in semestres %}
+                                        <option value="{% url 'search_elem_modules_semestres' name_=semestre.libelle_semestre %}">
+                                            {{ semestre.libelle_semestre }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <span class="filter-icon"><i class="fa fa-filter"></i></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="filter-group mr-1">
+                                <label>Module</label>
+                                <select class="form-control" id="dynamic_select3">
+                                    <option value="{% url 'manage_elem_modules' %}">
+                                        Tous
+                                    </option>
+                                    {% for module in modules %}
+                                        <option value="{% url 'search_elem_modules_modules' name_=module.libelle_module %}">
+                                            {{ module.libelle_module }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting"
+                                tabindex="0"
+                                aria-controls="example2"
+                                rowspan="1"
+                                colspan="1"
+                                aria-label="ID: activate to sort column ascending">
+                                #
+                            </th>
+                            <th class="sorting"
+                                tabindex="0"
+                                aria-controls="example2"
+                                rowspan="1"
+                                colspan="1"
+                                aria-label="First Name: activate to sort column ascending">
+                                Element module
+                            </th>
+                            <th class="sorting_desc"
+                                tabindex="0"
+                                aria-controls="example2"
+                                rowspan="1"
+                                colspan="1"
+                                aria-label="Last Name: activate to sort column ascending"
+                                aria-sort="descending">
+                                Module
+                            </th>
+                            <th class="sorting_desc"
+                                tabindex="0"
+                                aria-controls="example2"
+                                rowspan="1"
+                                colspan="1"
+                                aria-label="Last Name: activate to sort column ascending"
+                                aria-sort="descending">
+                                Crée le
+                            </th>
+                            <th class="sorting_desc"
+                                tabindex="0"
+                                aria-controls="example2"
+                                rowspan="1"
+                                colspan="2"
+                                aria-label="Last Name: activate to sort column ascending"
+                                aria-sort="descending">
+                                Responsable
+                            </th>
+                            <th class="sorting_desc"
+                                tabindex="0"
+                                aria-controls="example2"
+                                rowspan="1"
+                                colspan="1"
+                                aria-label="Last Name: activate to sort column ascending"
+                                aria-sort="descending">
+                                Details
+                            </th>
+                            <th class="sorting"
+                                tabindex="0"
+                                aria-controls="example2"
+                                rowspan="1"
+                                colspan="1"
+                                aria-label=": activate to sort column ascending">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for elem_module in elem_modules %}
+                            <div class="modal fade"
+                                 id="modal{{ elem_module.id }}"
+                                 tabindex="-1"
+                                 role="dialog"
+                                 aria-labelledby="exampleModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Detailles</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h5 class="font-weight-bold text-info">Enseignants</h5>
+                                           
+                                            {% for prof in elem_module.prof_id.all %}
+                                                <img src="https://img.icons8.com/ios-glyphs/30/4a90e2/person-male.png"/>
+                                                <a href="#" class="text-dark text-decoration-none">{{ prof.user.last_name }} {{ prof.user.first_name }}</a>
+                                                <br>
+                                            {% endfor %}
+                                            <hr>
+                                            <h5 class="font-weight-bold text-info">Prerequis</h5>
+                                            
+                                            {% for pq in prerequis %}
+                                            
+                                                {% if pq.element_module_id == elem_module %}
+                                                    <img src="https://img.icons8.com/glyph-neue/30/4a90e2/bookmark.png"/>
+                                                    <a href="#" class="text-dark text-decoration-none">{{ pq.prerequis_id.libelle_element_module }}</a>
+                                                    <br>
+                                                {% endif %}
+                                                
+                                                
+                                            {% endfor %}
+                                            <hr>
+                                            <h5 class="font-weight-bold text-info">L'objectif</h5>
+                                            <img src="https://img.icons8.com/ios-filled/30/4a90e2/goal--v1.png"/>
+                                            <a href="#" class="text-dark text-decoration-none"></a> {{ elem_module.objectif }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% cycle 'odd' 'even' as rowcolors silent %}
+                        <tr role="row" class="{{ rowcolors }}">
+                            <td class="font-weight-bold">{{ elem_module.id }}</td>
+                            <td class="font-weight-bold text-dark" style="color:black;">{{ elem_module.libelle_element_module  }}</td>
+                            <td class="sorting_1" style="color:#000c71;">{{  elem_module.module.libelle_module }}</td>
+                            {% if elem_module.created_at < elem_module.updated_at|timesince %}
+                                <td "style="background-color: #80ffff">{{ elem_module.updated_at |timesince }}
+                                </td>
+                            {% else %}
+                                <td>
+                                    {{ elem_module.updated_at |timesince }}
+                                </td>
+                            {% endif %}
+                            <td>
+                                {{ elem_module.responsable.user.last_name }}  {{ elem_module.responsable.user.first_name }}
+                                <td>
+                                    <td class="text-center">
+                                        <a data-toggle="modal" data-target="#modal{{ elem_module.id }}">
+                                            <img src="https://img.icons8.com/external-yogi-aprelliyanto-flat-yogi-aprelliyanto/32/000000/external-info-contact-and-communication-yogi-aprelliyanto-flat-yogi-aprelliyanto.png"/>
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="   {% url 'edit_element_module_level' name_=elem_module.module.semestre.niveau.nom_niveau  id_=elem_module.id %}">
+                                            <img src="https://img.icons8.com/external-becris-lineal-becris/24/4a90e2/external-edit-mintab-for-ios-becris-lineal-becris.png"/>
+                                        </a>
+                                        <a href="/delete_elem_module/{{ elem_module.id }}">
+                                            <img src="https://img.icons8.com/ios/24/fa314a/delete-trash.png"/>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th rowspan="1" colspan="1">
+                                    ID
+                                </th>
+                                <th rowspan="1" colspan="1">
+                                    L'élément
+                                </th>
+                                <th rowspan="1" colspan="1">
+                                    Module
+                                </th>
+                                <th rowspan="1" colspan="1">
+                                    crée le
+                                </th>
+                                <th rowspan="1" colspan="2">
+                                    Responsable
+                                </th>
+                                <th rowspan="1" colspan="1">
+                                    Details
+                                </th>
+                                <th rowspan="1" colspan="1">
+                                    Action
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div class="hint-text">
+                        Montrant <b>{{ elem_modules.start_index }}-{{ elem_modules.end_index }}</b> de <b>{{ elem_modules.paginator.count }}</b>
+                </div>
+                {% if elem_modules.has_other_pages %}
+                    <ul class="pagination">
+                        {% if elem_modules.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ elem_modules.previous_page_number }}">Previous</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Previous</span>
+                            </li>
+                        {% endif %}
+                        {% for i in elem_modules.paginator.page_range %}
+                            {% if elem_modules.number == i %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if elem_modules.has_next %}
+                            <li class="page-item ">
+                                <a class="page-link" href="?page={{ elem_modules.next_page_number }}">Next</a>
+                            </li>
+                        {% else %}
+                            <li class="disabled page-item">
+                                <span class="page-link">Next</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        $(function(){
+            
+            $('#dynamic_select').on('change', function () {
+                var url = $(this).val(); // get selected value
+                if (url) { // require a URL
+                    window.location = url; // redirect
+                }
+                return false;
+            });
+        });
+        $(function(){
+            
+            $('#dynamic_select1').on('change', function () {
+                var url = $(this).val(); // get selected value
+                if (url) { // require a URL
+                    window.location = url; // redirect
+                }
+                return false;
+            });
+        });
+        $(function(){
+            
+            $('#dynamic_select2').on('change', function () {
+                var url = $(this).val(); // get selected value
+                if (url) { // require a URL
+                    window.location = url; // redirect
+                }
+                return false;
+            });
+        });
+        $(function(){
+            
+            $('#dynamic_select3').on('change', function () {
+                var url = $(this).val(); // get selected value
+                if (url) { // require a URL
+                    window.location = url; // redirect
+                }
+                return false;
+            });
+        });
+        </script>
+</div>
+{% endblock content %}

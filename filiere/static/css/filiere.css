@@ -1,0 +1,32 @@
+.image img {
+  width: 60px;
+  height: 40px;
+  border-radius: 3px;
+}
+
+.card-header-flex {
+  display: flex;
+  gap: 10%;
+}
+.center {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+.card-add {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.form-control-modif {
+  color: aliceblue;
+}
+@media (max-width: 900px) {
+  .card-header-flex {
+    display: block;
+  }
+  .col-md-10 {
+    width: 100%;
+  }
+}

@@ -1,0 +1,133 @@
+<!--
+  EQUIPE  : Univit
+  @author : Koutar OUBENADDI
+-->
+{% extends "cours/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %} Ajout d'un modèle {% endblock title%}
+{% block style %}
+<link href="{% static 'css/cours/add_traitement.css' %}" rel="stylesheet" type="text/css">
+{% endblock style%}
+
+{% block content %}
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == "error" %}
+<div class="alert alert-danger" role="alert">
+    {{ message }}
+    {% comment %} {{ message.tags }} {% endcomment %}
+</div>
+{% elif message.tags == "success" %}
+<div class="alert alert-success" role="alert">
+    {{ message }}
+    {% comment %} {{ message.tags }} {% endcomment %}
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+<div class="row" id="row-content">
+    <div class="col-md-12 col-md-offset-3">
+        <form id="msform" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <ul id="progressbar">
+                <li id="li-first" class="active">Type</li>
+                <li id="li-second">Traitement</li>
+                <li id="li-third">Modèle</li>
+            </ul>
+            <fieldset id='fs-1'>
+                <h2 class="fs-title mb-4">Choix du Type</h2>
+                <hr />
+                <div class="col col-12 mt-4">
+                    {{new_traitement.titre_traitement|as_crispy_field}}
+                </div>
+                <h3 class="fs-subtitle">Choisissez un type</h3>
+                {% for radio in new_traitement.type_traitement %}
+                <div class="custom-control custom-radio my-3">
+                    <input type="radio" class="custom-control-input" id="{{ radio.choice_label }}"
+                        name="type_traitement" value="{{ radio.choice_label }}">
+                    <label class="custom-control-label" for="{{ radio.choice_label }}">{{ radio.choice_label }}</label>
+                </div>
+                {% endfor %}
+                <input type="button" name="next" class="next-to-2 action-button" value="Suivant" />
+            </fieldset>
+            <fieldset id='fs-image'>
+                <h2 class="fs-title mb-4">Ajout de l'image </h2>
+                <hr />
+                <h3 class="fs-subtitle">Veuillez remplir tous les champs</h3>
+                {{new_image.name_image|as_crispy_field}}
+                {{new_image.path_image|as_crispy_field}}
+                <input type="button" name="previous" class="previous-to-1 action-button-previous" value="Précédant" />
+                <input type="button" name="next" class="next-to-3 action-button" value="Suivant" />
+            </fieldset>
+            <fieldset id='fs-qr'>
+                <h2 class="fs-title mb-4">Ajout de Qr</h2>
+                <hr />
+                <h3 class="fs-subtitle">Veuillez remplir tous les champs</h3>
+                {{new_image.name_image|as_crispy_field}}
+                <!-- {{new_image.path_image|as_crispy_field}} -->
+                <input type="button" name="previous" class="previous-to-1 action-button-previous" value="Précédant" />
+                <input type="button" name="next" class="next-to-3 action-button" value="Suivant" />
+            </fieldset>
+            <fieldset id='fs-texte'>
+                <h2 class="fs-title mb-4">Ajout du texte</h2>
+                <h3 class="fs-subtitle">Veuillez ajouter le texte</h3>
+                {{new_traitement.label_traitement|as_crispy_field}}
+                <input type="button" name="previous" class="previous-to-1 action-button-previous" value="Précédant" />
+                <input type="button" name="next" class="next-to-3 action-button" value="Suivant" />
+            </fieldset>
+            <fieldset id="fs-3">
+                <h2 class="fs-title mb-4">Ajout du modèle</h2>
+                <hr />
+                <h3 class="fs-subtitle">Veuillez ajouter le modèle 3D</h3>
+
+                <br>
+                <br>
+                <div class="col col-12">
+                    <ul class="nav justify-content-center nav-pills">
+                        <li class="active customized-nav"><a class="nav-link active" data-toggle="tab"
+                                href="#new-modele">Nouveau modèle 3D</a></li>
+                        <li class="customized-nav"><a class="nav-link" data-toggle="tab" href="#existant-modele">Modèle
+                                3D existant</a></li>
+                    </ul>
+                    <hr>
+                    <br>
+                    <div class="tab-content scroll">
+                        <div id="new-modele" class="tab-pane fade in show active">
+                            <div class='col-12'>
+                                {{new_modele3d.titre_modele3d|as_crispy_field}}
+                            </div>
+                            <div class='col-12'>
+                                {{new_file.path_file|as_crispy_field}}
+                            </div>
+                        </div>
+
+                        <div id="existant-modele" class="tab-pane fade">
+                            <div class="col-12">
+                                {{new_traitement.modele3D|as_crispy_field}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="button" name="previous" class="previous-to-2 action-button-previous" value="Previous" />
+                <input type="submit" name="submit" class="submit action-button submit_traitement" value="Submit" />
+
+            </fieldset>
+        </form>
+    </div>
+</div>
+
+<script src=" {% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script src=" {% static 'js/cours/add_traitement.js' %}"></script>
+
+<style>
+    .btn-check {
+        visibility: hidden;
+        position: absolute;
+    }
+</style>
+{% endblock content %}

@@ -1,0 +1,59 @@
+{% extends 'admin/base-home.html' %}
+
+{% block title %}
+    Ajouter Professeur
+{% endblock title %}
+
+{% block content %}
+
+{% load static %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title">Importer des utilisateurs par un Fichier CSV :</h3>
+                    {% if messages %}
+                        <div class="form-group">
+                            <div class="col-12">
+                                {% for message in messages %}
+                                    <div><strong>{{message|safe}}</strong></div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="form-group">
+                            <div class="col-12">
+                                {{order}}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form action="{% url "upload_csv" %}" method="POST" enctype="multipart/form-data"> 
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="form-group">
+                            <input type="file" name="csv_file" required="True">
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Importer Utilisateurs</button>
+                    </div>
+                </form>
+                </div>
+                <!-- /.card -->
+
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+  </section>
+
+{% endblock content %}

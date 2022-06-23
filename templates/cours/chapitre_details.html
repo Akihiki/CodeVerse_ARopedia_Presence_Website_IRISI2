@@ -1,0 +1,458 @@
+<!--
+  EQUIPE  : Univit
+  @author : Koutar OUBENADDI et OUGOUD Khadija
+-->
+{% extends "cours/base.html" %}
+
+{% load static %}
+
+{% block title %} Chapitre : {{chapitre.libelle}} {% endblock title%}
+{% block content %}
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+
+
+<div class="modal" id="traitement-details-modal">
+    <div class="modal-dialog modal-l modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title ml-3" id="traitement-details-modal-title"></h4>
+                <a href="" class="tooltip_delete close-modal-btn" style="color:#e14848"><i style="font-size:24px"
+                        class="fa">&#xf00d;</i></a>
+            </div>
+            <div class="modal-body" id="traitement-details-modal-body">
+                ...
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == "error" %}
+<div class="alert alert-danger" role="alert">
+    {{ message }}
+    {% comment %} {{ message.tags }} {% endcomment %}
+</div>
+{% elif message.tags == "success" %}
+<div class="alert alert-success" role="alert">
+    {{ message }}
+    {% comment %} {{ message.tags }} {% endcomment %}
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+{% comment %} <div class="alert alert-error" role="alert">
+
+</div> {% endcomment %}
+
+<style>
+    .card {
+        padding-left: 0px;
+        padding-right: 0px;
+        /* margin-left: 0px;
+        margin-right: 0px; */
+        max-width: 100%;
+    }
+
+    /* #traitement-details-modal {
+        max-width: 90%;
+    } */
+</style>
+
+<div class="card o-hidden border-0 shadow-lg my-3">
+    <div class="card-body p-0">
+        <div class="row">
+            <div class="col-12 d-none d-block text-center">
+                <h3 class="m-3">
+                    {{chapitre.libelle}}
+                </h3>
+                <hr class="mb-6">
+            </div>
+        </div>
+        <div class="row">
+            <div class="maincontainer">
+                <ul class="nav justify-content-center nav-pills">
+                    <li class="active customized-nav"><a class="nav-link" data-toggle="tab"
+                            href="#description">Description</a></li>
+                    <li class="customized-nav"><a class="nav-link" data-toggle="tab" href="#document">Documents</a></li>
+                    <li class="customized-nav"><a class="nav-link" data-toggle="tab" href="#ar">Modele AR</a></li>
+                </ul>
+                <hr>
+                <div class="tab-content scroll">
+                    <div id="description" class="tab-pane fade in show active">
+                        <div class='row'>
+                            <div class='col col-md-5 col-sm-6 col-12 '>
+                                {% comment %} {% if %} {% endcomment %}
+                                <img src="/media/{{chapitre.image}}" alt="..." class="img-fluid" width="100%"
+                                    height="auto">
+                                {% comment %} {% else %}
+                                {% endif %} {% endcomment %}
+                            </div>
+                            <div class='col col-md-7 col-sm-6 col-12'>
+                                <h2>Description</h2>
+                                <p> {{chapitre.description}} </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="document" class="tab-pane fade">
+                        <h2>Document</h2>
+                        <div class="row content">
+                            {% for document in documents %}
+
+
+                            <div class="col-xl-4 mb-4">
+                                <div href="" class="card lift border-left-success h-100">
+                                    <div class="card-body d-flex justify-content-center flex-column">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="me-3">
+                                                <div width="24" height="24"
+                                                    class="feather feather-package feather-xl text-primary mb-3">
+                                                    {% if document.type == "pdf" %}
+                                                    <i class="fas fa-file-pdf fa-2x text-center"></i>
+                                                    {% endif %}
+                                                    {% if document.type == "jpg" %}
+                                                    <i class="fas fa-file-image fa-2x text-success"></i>
+                                                    {% endif %}
+
+                                                    {% if document.type == "txt" %}
+                                                    <i class="fas fa-file-text-o fa-2x text-success"></i>
+                                                    {% endif %}
+                                                    {% if document.type == "ppt" %}
+                                                    <i class="fas fa-file-powerpoint fa-2x text-success"></i>
+                                                    {% endif %}
+                                                    {% if document.type == "docx" %}
+                                                    <i class="fas fa-file-word fa-2x text-succes"></i>
+                                                    {% endif %}
+                                                    {% if document.type == "autre" %}
+                                                    <i class="fas fa-file fa-2x text-danger"></i>
+                                                    {% endif %}
+                                                </div>
+                                                <h4
+                                                    class=" font-weight-bold text-primary text-uppercase mb-1 text-gray-800">
+                                                    {{document.titre}}</h4>
+                                                <!-- <div class="text-muted small">Lorem ipsum dolor sit amet consectetur adipisicing elit. </div> -->
+                                                <div class="mt-2">
+
+                                                    {% load static %}
+                                                    <a href="{% get_media_prefix %}{{document.path}}"> <i
+                                                            class="fas fa-eye text-info"></i></a>
+
+                                                    <a href="{% url 'update_document' document.id %}" class="m-2">
+                                                        <i class="fas fa-pen text-warning"></i>
+                                                    </a>
+
+                                                    <a class="tooltip_delete delete_doc" id="delete_doc"
+                                                        href="{% url 'delete_document' document.id %}" class="m-2">
+                                                        <i class="fas fa-trash text-danger"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <img src="/media/{{document.image}}" alt="" style="width: 7rem">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <a href="{% url 'add_document' chapitre.id%}" class="float" id="tooltip_add"
+                            title="Ajouter un nouveau document">
+                            <i class="fa fa-plus my-float"></i>
+                        </a>
+                    </div>
+
+                    <div id="ar" class="tab-pane fade">
+                        <div class="row">
+                            {%if not traitements %}
+                            <img class="" src="/media/img/cours/modeles-not-found.png" alt="..." width="35%" />
+                            {%endif%}
+                            {% for traitement in traitements %}
+
+                            <div class="card m-3" style="width: 11rem;">
+                                <div class="card-header">
+                                    {{traitement.titre_traitement}}
+                                </div>
+                                {% if traitement.type_traitement == "Image" %}
+                                <img class="card-img-top" src="/media/{{traitement.image.path_image}}" alt="image"
+                                    class="rounded" width="100" height="150">
+                                {% endif %}
+                                {% if traitement.type_traitement == "QR-Code" %}
+                                <img class="card-img-top" src="/media/{{traitement.image.path_image}}" alt="image"
+                                    class="rounded" width="100" height="150">
+                                {% endif %}
+                                {% if traitement.type_traitement == "Texte" %}
+                                <img class="card-img-top" src="/media/img/cours/document_images/txt.png" alt="image"
+                                    class="rounded" width="100" height="150">
+                                {% endif %}
+                                <!-- <hr /> -->
+                                <div class="card-footer text-center">
+                                    <!-- <div class="col col-4 mt-4 text-center"> -->
+                                    <a href="" id="{{traitement.id}}"
+                                        class="view-traitement tooltip_show mx-2 tooltip-style"
+                                        title="Voir plus d'informations"><i class="fa fa-1x fa-eye"></i></a>
+                                    <!-- </div> -->
+                                    <!-- <div class="col col-4 mt-4 text-center"> -->
+                                    <a href="{% url 'update_traitement' traitement.id %}"
+                                        class="tooltip_update mx-2 tooltip-style" style="color:#e5bf41"
+                                        id="update_object" title="Modifier le modèle"><i
+                                            class="fa fa-1x fa-pen"></i></a>
+                                    <!-- </div> -->
+                                    <!-- <div class="col col-4 mt-4 text-center"> -->
+                                    <a href="{% url 'delete_traitement' traitement.id %}"
+                                        class="tooltip_delete delete_object mx-2 tooltip-style" style="color:#e14848"
+                                        id="delete_object" title="Supprimer le modèle"><i
+                                            class="fa fa-1x fa-trash"></i></a>
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+
+
+
+                            <!-- <div class="col col-lg-2 col-md-4 col-sm-6 my-4 text-center card-border border">
+                                <div class="col col-12">
+                                    {% if traitement.type_traitement == "Image" %}
+                                    <img class="Description" src="/media/{{traitement.image.path_image}}" alt="image"
+                                        class="rounded" width="100" height="100">
+                                    {% endif %}
+                                    {% if traitement.type_traitement == "QR-Code" %}
+                                    <img class="Description" src="/media/{{traitement.image.path_image}}" alt="image"
+                                        class="rounded" width="100" height="100">
+                                    {% comment %} <img class="Description"
+                                        src="https://fr.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market/generator/dist/generator/assets/images/websiteQRCode_noFrame.png"
+                                        alt="image" class="rounded"> {% endcomment %}
+                                    {% endif %}
+                                    {% if traitement.type_traitement == "Texte" %}
+                                    <img class="Description" src="/media/img/cours/document_images/txt.png" alt="image"
+                                        class="rounded" width="100" height="100">
+                                    {% endif %}
+                                </div>
+                                <div class="col col-12 my-3">
+                                    <h5>{{traitement.titre_traitement}}</h5>
+
+                                </div>
+
+                                <div class="col col-12 my-3 view-delete-buttons">
+
+                                    <div class="col col-4 mt-4 text-center">
+                                        <a href="" id="{{traitement.id}}" class=" view-traitement tooltip_show"
+                                            title="Voir plus d'informations"><i class="fa fa-1x fa-eye"></i></a>
+                                    </div>
+
+                                    <div class="col col-4 mt-4 text-center">
+                                        <a href="{% url 'update_traitement' traitement.id %}" class="tooltip_update"
+                                            style="color:#e5bf41" id="update_object" title="Modifier le modèle"><i
+                                                class="fa fa-1x fa-pen"></i></a>
+                                    </div>
+
+                                    <div class="col col-4 mt-4 text-center">
+                                        <a href="{% url 'delete_traitement' traitement.id %}"
+                                            class="tooltip_delete delete_object" style="color:#e14848"
+                                            id="delete_object" title="Supprimer le modèle"><i
+                                                class="fa fa-1x fa-trash"></i></a>
+                                    </div>
+
+                                </div>
+
+                            </div> -->
+                            {% endfor %}
+
+                        </div>
+                        <br>
+
+                        <div class="row-pages">
+                            {% if traitements.has_other_pages %}
+                            <ul class="pagination">
+                                {% if traitements.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link"
+                                        href="?page={{ traitements.previous_page_number }}">Précédent</a>
+                                </li>
+                                {% else %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">Précédent</span>
+                                </li>
+                                {% endif %}
+                                {% for i in traitements.paginator.page_range %}
+                                {% if traitements.number == i %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                                </li>
+                                {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                                {% endif %}
+                                {% endfor %}
+                                {% if traitements.has_next %}
+                                <li class="page-item ">
+                                    <a class="page-link" href="?page={{ traitements.next_page_number }}">Suivant</a>
+                                </li>
+                                {% else %}
+                                <li class="disabled page-item">
+                                    <span class="page-link">Suivant</span>
+                                </li>
+                                {% endif %}
+                            </ul>
+                            {% endif %}
+                        </div>
+
+
+                        <a href="{% url 'add_traitement' chapitre.id%}" class="float" id="tooltip_add"
+                            title="Ajouter un nouveau modèle">
+                            <i class="fa fa-plus my-float"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+{% block style %}
+<link href="{% static 'css/cours/custom_float_btn.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/cours/chapitre_details.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/cours/custom_tooltip.css' %}" rel="stylesheet" type="text/css">
+{% endblock style%}
+
+
+
+<script src=" {% static 'vendor/jquery/jquery.min.js' %}"></script>
+<script>
+
+    $('.delete_object').click(function () {
+        return confirm('Vous êtes sûr que vous voulez supprimer ce modèle ?');
+    })
+    $('.delete_doc').click(function () {
+        return confirm('Vous êtes sûr que vous voulez supprimer ce document ?');
+    })
+
+    $(document).ready(function () {
+        $(".tooltip_update").tooltip({
+            placement: "bottom"
+        });
+    });
+
+    $(document).ready(function () {
+        $(".tooltip_delete").tooltip({
+            placement: "bottom"
+        });
+    });
+
+    $(document).ready(function () {
+        $(".tooltip_show").tooltip({
+            placement: "bottom"
+        });
+    });
+
+    $(document).ready(function () {
+        $(".view-traitement").click(function (e) {
+
+            e.preventDefault();
+
+            var traitement_id = $(this).attr("id");
+
+            var t_title = ""
+            var t_label = ""
+            var t_type = ""
+            var img_name = ""
+            var img_path = ""
+            var model_titre = ""
+            var nbr_files = 0
+
+            $.ajax({
+
+                type: 'GET',
+
+                url: "{% url 'traitement_details' %}",
+
+                data: { "traitement_id": traitement_id },
+
+                success: function (response) {
+                    var res = response;
+
+                    t_title = response.traitement["fields"]["titre_traitement"];
+                    t_label = response.traitement["fields"]["label_traitement"];
+                    t_type = response.traitement["fields"]["type_traitement"];
+                    model_titre = response.modele3d["fields"]["titre_modele3d"];
+                    if (t_type != "Texte") {
+                        img_name = response.image["fields"]["name_image"];
+                        img_path = response.image["fields"]["path_image"];
+                    }
+
+                    var files = jQuery.parseJSON(response.files)
+                    var nbr_files = files.length;
+
+                    document.getElementById("traitement-details-modal-title").innerHTML = t_title
+                    if (t_type == "Texte") {
+
+                        document.getElementById("traitement-details-modal-body").innerHTML = `<div class="row">
+                                <div class="col-md-6">
+                                    <div class="project-info-box">
+                                        <p style="width:100%; text-align:center"><b>Informations sur le traitement</b></p>
+                                        <p><b>Titre du Traitement :</b> ${t_title}</p>
+                                        <p><b>Type du Traitement :</b> ${t_type}</p>
+                                    </div>
+                                    <div class="project-info-box">
+                                        <p style="width:100%; text-align:center"><b>Informations sur le modèle</b></p>
+                                        <p><b>Titre du modèle :</b> ${model_titre}</p>
+                                        <p><b>Nombre de fichiers :</b> ${nbr_files}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <div class="project-info-box">
+                                        <img src="/media/img/cours/document_images/txt.png" alt="project-image" class="rounded" width="75%">
+                                        <p><b>Texte :</b> ${t_label}</p>
+                                    </div>
+                                </div>
+                            </div>`;
+                    } else {
+
+                        document.getElementById("traitement-details-modal-body").innerHTML = `<div class="row">
+                                <div class="col-md-6">
+                                    <div class="project-info-box">
+                                        <p style="width:100%; text-align:center"><b>Informations sur le traitement</b></p>
+                                        <p><b>Titre du Traitement :</b> ${t_title}</p>
+                                        <p><b>Type du Traitement :</b> ${t_type}</p>
+                                    </div>
+                                    <div class="project-info-box">
+                                        <p style="width:100%; text-align:center"><b>Informations sur le modèle</b></p>
+                                        <p><b>Titre du modèle :</b> ${model_titre}</p>
+                                        <p><b>Nombre de fichiers :</b> ${nbr_files}</p>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-center">
+                                    <div class="project-info-box">
+                                        <img src="/media/${img_path}" alt="project-image" class="rounded" width="100%">
+                                        <p><b>Nom de l'image :</b> ${img_name}</p>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }
+                    if (t_title != "") {
+                        $("#traitement-details-modal").show();
+                    }
+                },
+                error: function (res) {
+
+                    alert('Got an error dude' + res);
+                    console.log(response)
+
+                }
+            });
+        });
+    });
+
+    $(".close-modal-btn").click(function (e) {
+        e.preventDefault();
+        $("#traitement-details-modal").hide();
+    })
+
+</script>
+{% endblock content %}

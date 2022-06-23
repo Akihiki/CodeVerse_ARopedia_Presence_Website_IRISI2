@@ -1,0 +1,84 @@
+<!--
+  EQUIPE  : CodeVerse
+  @author : FIROUD Reda & OUSSAHI Salma
+-->
+
+{% extends '../base.html' %}
+
+
+{% load static %}
+
+{% block title %} Emploi du temps {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-xl-5 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-1">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+
+                        <div class="col-auto">
+                            <i class="fas fa-calendar-day fa-3x text-primary"></i>
+                        </div>
+
+                        <div class="col ml-4">
+                            <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Time Schedule</div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">Admin : {{ user.username }}</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">{% now "l d F Y, H:i" %}</h6>
+            <h2 class="m-0 font-weight-bold text-success">All session</h2>
+        </div>
+        <div class="card-body" id="idTable ">
+            <table class="table table-hover">
+                <thead>
+
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Group</th>
+                    <th scope="col">Professor</th>
+                    <th scope="col">Classroom</th>
+                    <th scope="col">Module</th>
+                    <th scope="col">Day</th>
+                    <th scope="col">Start Time</th>
+                    <th scope="col">End Time</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for planning in plannings %}
+
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>{{ planning.groupe.nom_group}}</td>
+                    <td>{{ planning.professeur.user.first_name }} {{ planning.professeur.user.last_name }}</td>
+                    <td>{{ planning.salle.nom_salle}}</td>
+                    <td>{{ planning.element_module.libelle_element_module}}</td>
+                    <td>{{ planning.jour}}</td>
+                    <td>{{ planning.heure_debut}}</td>
+                    <td>{{ planning.heure_fin}}</td>
+                    <td>
+                            <a type="button" href="../edit/{{ planning.id }}" class="btn btn-primary">Edit</a>
+                            <a type="button" href="../delete/{{ planning.id }}" class="btn btn-danger">Delete</a>
+                    </td>
+                  </tr>
+                {% endfor %}  
+                </tbody>
+              </table>
+        </div>
+
+    </div>
+
+   
+
+
+{% endblock %}

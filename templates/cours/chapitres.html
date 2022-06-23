@@ -1,0 +1,375 @@
+<!--
+  EQUIPE  : Univit
+  @author : Koutar OUBENADDI et OUGOUD Khadija
+-->
+{% extends "cours/base.html" %}
+
+{% load static %}
+
+{% block title %} Chapitres {% endblock title%}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == 'error' %}
+<div class="alert alert-danger" role="alert">
+    {{ message }}
+</div>
+{% elif message.tags == "success" %}
+<div class="alert alert-success" role="alert">
+    {{ message }}
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+<div class="card o-hidden border-0 shadow-lg my-5 ">
+    <div class="card-body p-0">
+        <div class="row mr-3">
+            <form class="col-md-2 col-sm-6 d-none d-block" action="#">
+                <select class="custom-select custom-select-sm form-control form-control-sm m-3 chapitre-search-by"
+                    aria-label=".form-select-sm example">
+                    <option selected>Filière</option>
+                    <option value="{% url 'chapitres_list' %}">Toutes</option>
+                    {% for filiere in filieres %}
+                    <option value="{% url 'search_chapitres_by_filiere' val=filiere.nom_filiere %}">
+                        {{filiere.nom_filiere}}</option>
+                    {% endfor %}
+                </select>
+            </form>
+            <div class="col-md-2 col-sm-6 d-none d-block">
+                <select class="custom-select custom-select-sm form-control form-control-sm m-3 chapitre-search-by"
+                    aria-label=".form-select-sm example">
+                    <option selected>Niveau</option>
+                    <option value="{% url 'chapitres_list' %}">Tous</option>
+                    {% for niveau in niveaux %}
+                    <option value="{% url 'search_chapitres_by_niveau' val=niveau.nom_niveau %}">{{niveau.nom_niveau}}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 col-sm-6 d-none d-block">
+                <select class="custom-select custom-select-sm form-control form-control-sm m-3 chapitre-search-by"
+                    aria-label=".form-select-sm example">
+                    <option selected>Module</option>
+                    <option value="{% url 'chapitres_list' %}">Tous</option>
+                    {% for element_module in element_modules %}
+                    <option
+                        value="{% url 'search_chapitres_by_element_module' val=element_module.libelle_element_module %}">
+                        {{element_module.libelle_element_module}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 col-sm-6 d-none d-block">
+                <select class="custom-select custom-select-sm form-control form-control-sm m-3 chapitre-search-by"
+                    aria-label=".form-select-sm example">
+                    <option selected>Année</option>
+                    <option value="{% url 'chapitres_list' %}">Tous</option>
+                    {% for annee in annees %}
+                    {% ifchanged annee.year %}
+                    <option value="{% url 'search_chapitres_by_annee' val=annee.year %}">{{annee.year}}</option>
+                    {% endifchanged %}
+                    {% endfor %}
+                </select>
+            </div>
+            <form class=" col-md-4 col-sm-12 d-flex  align-items-center" action="{% url 'chapitres_list' %}">
+                <div class="col-10">
+                    <input class="form-control form-control-sm m-3" type="search" placeholder="Search ..."
+                        area-controls="dataTable" name="search">
+                </div>
+                <div class="col-2">
+                    <button type="submit" style="height: 35px;" class="btn btn-primary">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card o-hidden border-0 shadow-lg my-3">
+    <div class="card-body p-0">
+        <div class="row">
+            <div class="col-12 d-none d-block text-center">
+                <h3 class="m-3">
+                    Liste des Chapitres {{search_by|default_if_none:""}}
+                </h3>
+                <hr class="mb-6">
+            </div>
+        </div>
+        <div class="row row-chapitres">
+            {%if not chapitres %}
+            <img class="" src="/media/img/cours/chapitres-not-found.png" alt="..." width="35%" />
+            {%endif%}
+            {% for chapitre in chapitres %}
+
+            {% if chapitre.deleted == False %}
+
+
+            <div class="card m-3" style="width: 11rem;">
+                <div class="card-header">
+                    {% if chapitre.element_module != None %}
+                    <b>{{chapitre.element_module}} /</b>
+                    {% endif %}
+                    {{chapitre.libelle}}
+                </div>
+                {% if chapitre.image %}
+                <img class="card-img-top" src="{{chapitre.image.url}}" alt="..." height="150" width="100%" />
+                {% else %}
+                <img class="card-img-top" src="img/cours/folder-files-and-folders-svgrepo-com.svg" alt="..."
+                    height="210" width="100%" />
+                {% endif %}
+                <div class="card-body">
+                    <!-- <div class="col col-12"> -->
+                    <!-- <h6 class="card-text"><b> Module : </b> {{chapitre.element_module}}</h6> -->
+                    <!-- </div> -->
+                    <!-- <div class="col col-12"> -->
+                    <p class="card-text">{{chapitre.description|default_if_none:"---"|truncatewords:3}}</p>
+                    <!-- </div> -->
+                </div>
+                <div class="card-footer text-center">
+                    <!-- <div class="col col-4 mt-4"> -->
+                    <a href="{% url 'chapitre_details' chapitre.id %}" class="tooltip_show mx-2"
+                        title="Voir le chapitre"><i class="fa fa-eye"></i></a>
+                    <!-- </div> -->
+                    <!-- <div class="col col-4 mt-4"> -->
+                    <a href="{% url 'update_chapitre' chapitre.id %}" class="tooltip_update mx-2"
+                        title="Modifier le chapitre"><i class="fa fa-pen" style="color:#e5bf41"></i></a>
+                    <!-- </div> -->
+                    <!-- <div class="col col-4 mt-4"> -->
+                    <a href="{% url 'delete_chapitre' chapitre.id %}" class="tooltip_delete delete_object mx-2"
+                        style="color:#e14848" id="delete_object" title="Supprimer le chapitre"><i
+                            class="fa fa-trash"></i></a>
+                    <!-- </div> -->
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- <div class="col-md-4 col-sm-6 col-lg-2 d-none d-block p-3 text-center">
+                <div class="card">
+                    {% if chapitre.image %}
+                    <img class="p-3" src="{{chapitre.image.url}}" alt="..." height="210" width="100%" />
+                    {% else %}
+                    <img class="p-3" src="img/cours/folder-files-and-folders-svgrepo-com.svg" alt="..." height="210"
+                        width="100%" />
+                    {% endif %}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col col-12">
+                                <h5 class="card-title">{{chapitre.libelle}}</h5>
+                                <h6 class="card-title">Module : {{chapitre.element_module}}</h6>
+                            </div>
+                            <div class="col col-12">
+                                <p class="card-text">{{chapitre.description|default_if_none:"---"|truncatewords:3}}</p>
+                            </div>
+                            <hr />
+                            <div class="col col-4 mt-4">
+                                <a href="{% url 'chapitre_details' chapitre.id %}" class="tooltip_show"
+                                    title="Voir le chapitre"><i class="fa fa-eye"></i></a>
+                            </div>
+                            <div class="col col-4 mt-4">
+                                <a href="{% url 'update_chapitre' chapitre.id %}" class="tooltip_update"
+                                    title="Modifier le chapitre"><i class="fa fa-pen" style="color:#e5bf41"></i></a>
+                            </div>
+                            <div class="col col-4 mt-4">
+                                <a href="{% url 'delete_chapitre' chapitre.id %}" class="tooltip_delete delete_object"
+                                    style="color:#e14848" id="delete_object" title="Supprimer le chapitre"><i
+                                        class="fa fa-trash"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            {% endfor %}
+        </div>
+        <!-- <a href="{% url 'add_chapitre' %}" class="float" id="tooltip_add" title="Ajouter un nouveau chapitre">
+            <i class="fa fa-plus my-float"></i>
+        </a> -->
+        <div class="row-pages">
+            {% if chapitres.has_other_pages %}
+            <ul class="pagination">
+                {% if chapitres.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ chapitres.previous_page_number }}">Précédent</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Précédent</span>
+                </li>
+                {% endif %}
+                {% for i in chapitres.paginator.page_range %}
+                {% if chapitres.number == i %}
+                <li class="page-item active">
+                    <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if chapitres.has_next %}
+                <li class="page-item ">
+                    <a class="page-link" href="?page={{ chapitres.next_page_number }}">Suivant</a>
+                </li>
+                {% else %}
+                <li class="disabled page-item">
+                    <span class="page-link">Suivant</span>
+                </li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </div>
+
+
+        <a href="" class="float" id="tooltip_add" title="Ajouter un nouveau chapitre">
+            <i class="fa fa-plus my-float"></i>
+        </a>
+    </div>
+</div>
+
+
+<div class="modal" id="add-chapitre-modal">
+    <div class="modal-dialog modal-l modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title ml-3" id="add-chapitre-modal-title">Ajout d'un Chapitre</h4>
+                <a href="" class="tooltip_delete close-modal-btn" style="color:#e14848"><i style="font-size:24px"
+                        class="fa">&#xf00d;</i></a>
+            </div>
+            <div class="modal-body" id="add-chapitre-modal-body">
+                <!-- <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="row mr-3">
+                            <div class="col col-12 text-center">
+                                <h4 class="m-3">
+                                    Ajout d'un Chapitre
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="card o-hidden border-0 my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-12 text-center d-none d-block">
+                                <p class="m-3">
+                                    Veuillez remplir le formulaire ...
+                                </p>
+                                <hr class="mb-6">
+                            </div>
+                        </div>
+                        <form class="row g-3" action="add_chapitre" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="col-12 d-none d-block ml-3">
+                                Intitulé du Chapitre :
+                            </div>
+                            <div class="form-group col-12 mr-3">
+                                <div class="col-12 p-3"> {{new_chapitre.libelle}}</div>
+                            </div>
+                            <div class="col-12 d-none d-block ml-3">
+                                Description du Chapitre :
+                            </div>
+                            <div class="form-group col-12 mr-3">
+                                <div class="col-12 p-3"> {{new_chapitre.description}}</div>
+                            </div>
+                            <div class="col-12 d-none d-block ml-3">
+                                Image du Chapitre :
+                            </div>
+                            <div class="form-group col-12 mr-3">
+                                <div class="col-12 p-3"> {{new_chapitre.image}}</div>
+                            </div>
+                            <div class="col-12 d-none d-block ml-3">
+                                Module du Chapitre :
+                            </div>
+                            <div class="form-group col-12 mr-3">
+                                <div class="col-12 p-3"> {{new_chapitre.element_module}}</div>
+                            </div>
+                            <div class="form-group col-12 text-center mr-3">
+                                <button type="submit" class="btn btn-primary col-11">Confirmer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block style %}
+<link href="{% static 'css/cours/custom_float_btn.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/cours/custom_tooltip.css' %}" rel="stylesheet" type="text/css">
+{% endblock style%}
+
+<style>
+    .row-chapitres {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-bottom: 50px;
+    }
+
+    .row-pages {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .modal {
+        /* width: 100%; */
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    /* .modal-dialog {
+        width: 100%;
+    } */
+
+    .modal-content {
+        width: 50rem;
+    }
+</style>
+
+<script src=" {% static 'vendor/jquery/jquery.min.js' %}"></script>
+
+<script src=" {% static 'js/cours/chapitres.js' %}"></script>
+
+<script>
+
+    $('.delete_object').click(function () {
+        return confirm('Vous êtes sûr que vous voulez supprimer ce chapitre ?');
+    })
+
+    $(document).ready(function () {
+        $("#tooltip_add").tooltip({
+            placement: "auto"
+        });
+    });
+
+    $(document).ready(function () {
+        $(".tooltip_show").tooltip({
+            placement: "auto"
+        });
+    });
+
+    $(document).ready(function () {
+        $(".tooltip_update").tooltip({
+            placement: "auto"
+        });
+    });
+
+    $(document).ready(function () {
+        $(".tooltip_delete").tooltip({
+            placement: "auto"
+        });
+    });
+
+    $(document).ready(function () {
+        $("#tooltip_add").click(function (e) {
+            e.preventDefault();
+            $("#add-chapitre-modal").show();
+        });
+    });
+</script>
+{% endblock content %}

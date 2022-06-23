@@ -1,0 +1,79 @@
+<!--
+  EQUIPE  : CodeVerse
+  @author : FIROUD Reda & OUSSAHI Salma
+-->
+
+{% extends '../base.html' %}
+
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% block title %} Emploi du temps {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-xl-5 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-1">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+
+                        <div class="col-auto">
+                            <i class="fas fa-calendar-day fa-3x text-primary"></i>
+                        </div>
+
+                        <div class="col ml-4">
+                            <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Time Schedule</div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">Admin : {{ user.username }}</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">{% now "l d F Y, H:i" %}</h6>
+        </div>
+        <div class="card-body">
+            
+                        <form method="post" action="../updateSalle/{{salle.id}}">
+                            <h1>Modifier une salle</h1>
+
+                            {% csrf_token %}
+                            <div class="modal-body">
+                               
+                                        
+                                        <div class="form-row">
+                                            <label class="col-sm-2 col-form-label">Nom de la salle:</label>
+                                            <input type="text" name="nom_salle"  value="{{salle.nom_salle}}" class="form-control"/>  
+                                        </div>
+                                          
+                                        <div class="form-row">
+                                            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="disponible" id="disponible">
+                                            <label class="form-check-label" for="exampleCheck1"  value="{{salle.disponible}}" class="form-control">Disponibilité</label>  
+                                        </div>
+
+                                        <div class="form-row">
+                                            <label class="col-sm-2 col-form-label">Type de la salle:</label>
+                                            <input type="text" name="type_salle" id="type_salle"  value="{{salle.type_salle}}" class="form-control"/>  
+                                        </div>
+                                    
+                                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                    
+                                    
+                                     
+                        </form>
+                    
+                        
+        </div>
+
+    </div>
+
+   
+
+
+{% endblock %}

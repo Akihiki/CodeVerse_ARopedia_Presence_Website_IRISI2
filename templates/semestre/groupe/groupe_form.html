@@ -1,0 +1,27 @@
+{% extends "users/base-home.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<form action="" method="post" autocomplete="off">
+    {% csrf_token %}
+    {{form.nom_group|as_crispy_field}}
+    <div class="row">
+        <div class="col-md-8">
+            {{form.niveau|as_crispy_field}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <button type="submit" class="btn btn-success btn-block btn-lg"><i class="fas fa-database"></i>
+                confirmer</button>
+        </div>
+        <div class="col-md-4">
+            <a href="{% url 'groupe_list' %}" class="btn btn-secondary btn-block btn-lg">
+                <i class="fas fa-stream"></i> Liste des groupes
+            </a>
+        </div>
+    </div>
+
+</form>
+{% endblock content %}

@@ -1,0 +1,17 @@
+.fc-event-title {
+    margin: 1px;
+    padding: 1px;
+    white-space: normal;
+    font-size: 1.2em;
+}
+  
+.fc-event-time {
+    margin: 1px;
+    padding: 1px;
+    font-size: .8em;
+}
+
+.fc-h-event .fc-event-main-frame {
+    display: block;
+}
+

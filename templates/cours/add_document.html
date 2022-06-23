@@ -1,0 +1,64 @@
+<!--
+  EQUIPE  : Univit
+  @author :  OUGOUD Khadija
+-->
+{% extends "cours/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %} Ajout d'un Cours {% endblock title%}
+{% block content %}
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <div class="row mr-3">
+            <div class="col col-12 text-center">
+                <h4 class="m-3">
+                    Ajout d'un Document
+                </h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <div class="row">
+            <div class="col-12 text-center d-none d-block">
+                <p class="m-3">
+                    Veuillez remplir le formulaire ...
+                </p>
+                <hr class="mb-6">
+            </div>
+        </div>
+        <form class="row g-3" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="col-12 d-none d-block ml-3">
+                Nom du document :
+            </div>
+            <div class="form-group col-12 mr-3">
+                <div class="col-12 p-3">{{new_document.titre|as_crispy_field}} </div>
+            </div>
+            <!--  -->
+            <div class="col-12 d-none d-block ml-3">
+                Image du Document :
+            </div>
+            <div class="form-group col-12 mr-3">
+                <div class="col-12 p-3">{{new_document.image|as_crispy_field}} </div>
+            </div>
+            <div class="col-12 d-none d-block ml-3">
+                Document:
+            </div>
+            <div class="form-group col-12 mr-3">
+                <div class="col-12 p-3"> {{new_document.path|as_crispy_field}}</div>
+            </div>
+            <div class="form-group col-12 text-center mr-3">
+                <button type="submit" class="btn btn-primary col-11">Confirmer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+
+</style>
+{% endblock content %}

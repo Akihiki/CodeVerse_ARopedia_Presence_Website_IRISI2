@@ -1,0 +1,75 @@
+<!--
+  EQUIPE  : CodeVerse
+  @author : FIROUD Reda & OUSSAHI Salma
+-->
+
+{% extends '../base.html' %}
+
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% block title %} Emploi du temps {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-xl-5 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-1">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+
+                        <div class="col-auto">
+                            <i class="fas fa-calendar-day fa-3x text-primary"></i>
+                        </div>
+
+                        <div class="col ml-4">
+                            <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Time Schedule</div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">Admin : {{ user.username }}</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">{% now "l d F Y, H:i" %}</h6>
+        </div>
+        <div class="card-body">
+            
+                        <form method="post" action="../updateTypeSalle/{{typesalle.id}}">
+                            <h1>Modifier un type de salle</h1>
+
+                            {% csrf_token %}
+                            <div class="modal-body">
+                               <div class="form-row">
+                                        
+                                        <div class="col">
+                                            <label class="col-sm-2 col-form-label">Capacité:</label>
+                                            <input type="text" name="capacite" id="capacite"  value="{{typesalle.capacite}}" class="form-control"/>  
+                                        </div>
+                                          
+                                        <div class="col">
+                                            <label class="col-sm-2 col-form-label">Libellé:</label>
+                                            <input type="text" name="libelle" id="libelle"  value="{{typesalle.libelle}}" class="form-control"/>  
+                                        </div>
+                                    </div> 
+                                    <br>
+                                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                    
+                                    
+                                     
+                        </form>
+                    
+                        
+        </div>
+
+    </div>
+
+   
+
+
+{% endblock %}

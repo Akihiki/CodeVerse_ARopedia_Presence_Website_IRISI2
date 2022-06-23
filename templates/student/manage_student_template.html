@@ -1,0 +1,178 @@
+{## UnivIt responsable : ismail errouk #}
+{% extends 'admin/base-home.html' %}
+
+{% block title %}
+    Manage Student
+{% endblock title %}
+
+{% block content %}
+
+{% load static %}
+
+<section class="content">
+        <div class="container-fluid">
+            <a class="btn btn-primary" href="{% url 'add_student' %}" role="button">Ajouter étudiant</a> <br/>&nbsp;
+            
+            {% if messages %}
+                                <div class="form-group">
+                                <div class="col-12">
+                                    {% for message in messages %}
+                                    {% if message.tags == "error" %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        </div>
+                                    {% elif message.tags == "success" %}
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                </div>
+                                {% endif %}
+
+            <div class="row">
+
+                <div class="col-md-12">
+                    <!-- general form elements -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Detailles étudiants ({{ all_students_count }})</h3>
+
+                            <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                                <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+{#                                <th>ID</th>#}
+                                <th>CNE</th>
+                                <th>Prénom</th>
+                                <th>Nom</th>
+                                <th>nom d'utilisateur</th>
+                                <th>Email</th>
+{#                                <th>Adresse</th>#}
+                                <th>Telephone</th>
+                                <th>Code Appoge</th>
+{#                                <th>Start Year</th>#}
+{#                                <th>End Year</th>#}
+{#                                <th>Last Login</th>#}
+{#                                <th>Date Joined</th>#}
+{#                                <th>Admin Creator</th>#}
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in students %}
+                                <tr>
+{#                                <td>{{ student.id }}</td>#}
+                                <td>{{ student.cne }}</td>
+                                <td>{{ student.user.first_name }}</td>
+                                <td>{{ student.user.last_name }}</td>
+                                <td>{{ student.user.username }}</td>
+                                <td>{{ student.user.email }}</td>
+{#                                <td>{{ student.adresse }}</td>#}
+                                <td>{{ student.telephone }}</td>
+                                <td>{{ student.code_apogee }}</td>
+{#                                <td>{{ student.session_year_id.session_start_year }}</td>#}
+{#                                <td>{{ student.session_year_id.session_end_year }}</td>#}
+{#                                <td>{{ student.user.last_login }}</td>#}
+{#                                <td>{{ student.user.date_joined }}</td>#}
+{#                                <td>{{ student.admin.admin.username }}</td>#}
+                                <td>
+                                    <a href="{% url 'edit_student' student.id %}" class="btn btn-success">Modifier</a>
+                                    <a href="{% url 'delete_student' student.id %}" class="btn btn-danger">Supprimer</a>
+                                </td>
+                                </tr>
+                                {% endfor %}
+                                
+                            </tbody>
+                            </table>
+                         <div class="clearfix">
+                {% if students.has_other_pages %}
+                    <ul class="pagination" style="float:right; margin: 30px;">
+                     <li class="page-item ">
+                                <a class="page-link" href="?page={{ 1  }}">Premier</a>
+                            </li>
+                        {% if students.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ students.previous_page_number }}">Precedent</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Precedent</span>
+                            </li>
+                        {% endif %}
+                        {% for i in students.paginator.page_range %}
+                            {% if students.number == i %}
+                                {% if students.number != 1 %}
+{#                                    <li class="page-item">#}
+{#                                        <span class="page-link">{{ i }} </span>#}
+{#                                    </li>#}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                                    </li>
+{#                                    <li class="page-item">#}
+{#                                        <span class="page-link">{{ i }} </span>#}
+{#                                    </li>#}
+                                 {% else %}
+
+                                  <li class="page-item active">
+                                        <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                                    </li>
+{#                                    <li class="page-item">#}
+{#                                        <span class="page-link">{{ i }} </span>#}
+{#                                    </li>#}
+{#                                    <li class="page-item">#}
+{#                                        <span class="page-link">{{ i }} </span>#}
+{#                                    </li>#}
+                                {% endif %}
+{#                            {% else %}#}
+{#                                <li class="page-item">#}
+{#                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>#}
+{#                                </li>#}
+                            {% endif %}
+                        {% endfor %}
+                        {% if students.has_next %}
+                            <li class="page-item ">
+                                <a class="page-link" href="?page={{ students.next_page_number }}">Suivant</a>
+                            </li>
+                        {% else %}
+                            <li class="disabled page-item">
+                                <span class="page-link">Suivant</span>
+                            </li>
+                        {% endif %}
+                          <li class="page-item ">
+                                <a class="page-link" href="?page={{ students.paginator.num_pages  }}">Dernier</a>
+                            </li>
+                    </ul>
+            {% endif %}
+          </div>
+                        </div>
+                        <!-- /.card-body -->
+                        </div>
+                    <!-- /.card -->
+
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+
+  {% endblock content %}

@@ -1,0 +1,15 @@
+# @Author FIROUD Reda
+client_config_backend: settings
+client_config:
+  client_id: 592639648215-0f3gqnodjiamap6dl18aea9hc7orhidq.apps.googleusercontent.com
+  client_secret: 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
+
+save_credentials: True
+save_credentials_backend: file
+save_credentials_file: credentials.json
+
+get_refresh_token: True
+
+oauth_scope:
+  - https://www.googleapis.com/auth/drive.file
+  - https://www.googleapis.com/auth/drive.install

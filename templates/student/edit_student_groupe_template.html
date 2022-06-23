@@ -1,0 +1,95 @@
+{## UnivIt responsable : ismail errouk #}
+{% extends 'admin/base-home.html' %}
+
+{% block title %}
+Edit Student | Username: {{ username }} | #ID : {{ id }}
+{% endblock title %}
+
+{% block content %}
+
+{% load static %}
+
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Edit Role</h3>
+                        <button type="button" class="btn btn-primary float-right"
+                            onclick="window.location.href='{% url 'manage_student' %}'">Back</button>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    {% comment %} Displaying the Django Form using forms.py EditStudentForm {% endcomment %}
+                    {# {% url 'edit_permission_save' id as action_path %}#}
+{#                     {% include 'admin/form_template.html' with form=form action_path=action_path button_text="Update#}
+{#                    Permission" %}#}
+                    <div>
+                        <form action="{% url 'edit_groupe_add_save' id %}" method="POST" class="col-12">
+                            <div>
+                                {% csrf_token %}
+                                <div class="col-12">
+                                    {{ form.as_p }}
+                                </div>
+                            </div>
+                            <button class="btn btn-warning" type="submit">Ajouer les Groupes</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.card -->
+
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card">
+
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nom Groupe</th>
+                                    <th>Niveau</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for groupe in groupes %}
+                                <tr>
+                                    <td>{{ groupe.id }}</td>
+                                    <td>{{ groupe.nom_group }}</td>
+                                    <td>{{ groupe.niveau }}</td>
+
+                                    <td>
+                                        <a href="{% url 'delete_student_groupe' student.id groupe.id %}"
+                                            class="btn btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+{% endblock content %}

@@ -1,0 +1,357 @@
+{% extends 'admin/base-home.html' %}
+{% block title %} Gestion des Professeurs {% endblock title %} 
+{% block content %} 
+{% load static %}
+
+<section class="content">
+    <div class="content-wrapper mt-5">
+    <a 
+    href="{% url 'add_professeur' %}"
+    class="btn btn-primary btn-sm"
+            id="submit"><i class="fas fa-plus"></i>&nbsp;Ajouter un Nouveau Professeur
+    </a>
+    <br />&nbsp; {% if messages %}
+    <div class="form-group">
+    <div class="col-12">
+        {% for message in messages %} {% if message.tags == "error" %}
+        <div
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert"
+        style="margin-top: 10px;"
+        >
+        {{ message }}
+        <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+        >
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        {% elif message.tags == "success" %}
+        <div
+        class="alert alert-success alert-dismissible fade show"
+        role="alert"
+        style="margin-top: 10px;"
+        >
+        {{ message }}
+        <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+        >
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        {% endif %} 
+        {% endfor %}
+    </div>
+    </div>
+    {% endif %}
+    <div class="row">
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card">
+        <div class="card-header bg-white">
+            <h3 class="card-title">Liste des Professeurs ({{ all_professeur_count }})</h3>
+
+            <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+                <input
+                type="text"
+                name="table_search"
+                class="form-control float-right"
+                placeholder="Search"
+                />
+
+                <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                    <i class="fas fa-search"></i>
+                </button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+            {% if professeurs is None or professeurs.count == 0 %}
+                <h3 class="col-md-12 text-center text-danger">Aucun Professeur trouvé dans votre Base de données !</h3>
+            {% else %}
+                <table class="table table-Light text-nowrap">
+                <thead class="text-info">
+                    <tr>
+                        <th>Matricule</th>
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                        <th>Nom d'utilisateur</th>
+                        <th>Adresse Email</th>
+                        <th>Telephone</th>
+                        <th>Specialite</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for professeur in professeurs %}
+                    <tr>
+                        <td>{{ professeur.matricule }}</td>
+                        <td>{{ professeur.user.first_name }}</td>
+                        <td>{{ professeur.user.last_name }}</td>
+                        <td>{{ professeur.user.username }}</td>
+                        <td>{{ professeur.user.email }}</td>
+                        <td>{{ professeur.telephone }}</td>
+                        <td>{{ professeur.specialite }}</td>
+                    <td>
+                        <a
+                            href="{% url 'edit_professeur' professeur.user.id %}"
+                            class="btn btn-warning"
+                        ><i class="fas fa-edit"></i></a>
+                        <a
+                            href="{% url 'delete_professeur' professeur.user.id %}"
+                            class="btn btn-danger"
+                        ><i class="fas fa-trash"></i></a
+                        >
+                    </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            {% endif %}
+            <div class="clearfix">
+                {% if professeurs.has_other_pages %}
+                    <ul class="pagination" style="float:right; margin: 30px;">
+                        {% if professeurs.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ professeurs.previous_page_number }}">Precedent</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Precedent</span>
+                            </li>
+                        {% endif %}
+                        {% for i in professeurs.paginator.page_range %}
+                            {% if professeurs.number == i %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if professeurs.has_next %}
+                            <li class="page-item ">
+                                <a class="page-link" href="?page={{ professeurs.next_page_number }}">Suivant</a>
+                            </li>
+                        {% else %}
+                            <li class="disabled page-item">
+                                <span class="page-link">Suivant</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+            {% endif %}
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+</div>
+<!-- /.container-fluid -->
+</section>
+
+<!-- Modal pour l'Ajout d'un Professeur  -->
+<div class="modal fade" id="pModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Ajout d'un Nouveau Professeur :</h5>
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form" method="POST" action="{% url 'add_professeur_save' %}">
+                    {% csrf_token %}
+                    {% comment %} Display Messages {% endcomment %}
+                    {% if messages %}
+                        <div class="form-group">
+                            <div class="col-12">
+                                {% for message in messages %}
+                                    {% if message.tags == "error" %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                            {{ message }}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    {% elif message.tags == "success" %}
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 10px;">
+                                            {{ message }}
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Adresse Email du Professeur</label>
+                            <input type="email" class="form-control" name="email" placeholder="Adresse Email du Professeur..." id="id_email">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nom d'utilisateur du Professeur</label>
+                            <input type="text" class="form-control" name="username" placeholder="Nom d'utilisateur du Professeur..." id="id_username">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mot de Passe du Professeur</label>
+                            <input type="password" class="form-control" name="password" placeholder="Mot de Passe du Professeur...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nom de Famille du Professeur</label>
+                            <input type="text" class="form-control" name="first_name" placeholder="Nom de Famille du Professeur...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Prénom du Professeur</label>
+                            <input type="text" class="form-control" name="last_name" placeholder="Prénom du Professeur...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Matricule du Professeur</label>
+                            <input type="text" class="form-control" name="matricule" placeholder="Matricule du Professeur...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Numero de Telephone du Professeur</label>
+                            <input type="text" class="form-control" name="telephone" placeholder="Numero de Telephone du Professeur...">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Spécialité du Professeur</label>
+                            <select class="custom-select md-form" name="specialite">
+                                <option value="Sciences_de_l’ingénieur ">Sciences de l’ingénieur </option>
+                                <option value="Informatique">Informatique</option>
+                                <option value="Mathématiques">Mathématiques</option>
+                                <option value="Physique-Chimie">Physique-Chimie</option>
+                                <option value="Physique">Physique</option>
+                                <option value="Chimie">Chimie</option>
+                                <option value="Physique">Physique</option>
+                                <option value="Biologie">Biologie</option>
+                                <option value="Management">Management</option>
+                                <option value="Humanite">Humanité</option>
+                                <option value="Litterature">Littérature</option>
+                                <option value="Philosophie">Philosophie</option>
+                                <option value="Sciences_Vie_Terre">Sciences de la vie et de la Terre - SVT</option>
+                                <option value="Sciences_économiques_sociales">Sciences économiques et sociales</option>
+                                <option value="Langues_et_Communication">Langues et Communication</option>
+                            </select>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary">Ajouter Professeur</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>    
+</div>
+
+
+
+{% endblock content %}
+
+{% block custom_js %}
+{% comment %} Checking if email and username already exists or not usin Ajax {% endcomment %}
+<script>
+
+    <script type="text/javascript">
+        $("#submit").click(function () {
+            var text = $("#textarea").val();
+            $("#modal_body").html(text);
+        });
+    </script>
+
+    $(document).ready(function(){
+        // keyup event will be triggered when user leaves keyboard
+        $("#id_email").keyup(function(){
+            var email = $(this).val();
+
+            if(email!=""){
+                $.ajax({
+                    url : '{% url 'check_email_exist' %}',
+                    type : 'POST',
+                    data : {email:email}
+                })
+                .done(function(response){
+                    //console.log(response);
+
+                    if(response == "True"){
+                        $(".email_error").remove();
+                        $("<span class='email_error' style='color: red; padding: 5px; font-weight: bold;'> Email Not Available. </span>").insertAfter("#id_email")
+                    }
+                    else{
+                        $(".email_error").remove();
+                        $("<span class='email_error' style='color: green; padding: 5px; font-weight: bold;'> Email Available. </span>").insertAfter("#id_email")
+                    }
+                })
+
+                .fail(function(){
+                    console.log("Failed");
+                })
+            }
+            else{
+                $(".email_error").remove();
+            }
+            
+        })
+
+        $("#id_username").keyup(function(){
+            var username = $(this).val();
+            
+            if(username!=""){
+                $.ajax({
+                    url : '{% url 'check_username_exist' %}',
+                    type : 'POST',
+                    data : {username:username}
+                })
+                .done(function(response){
+                    //console.log(response);
+
+                    if(response == "True"){
+                        $(".username_error").remove();
+                        $("<span class='username_error' style='color: red; padding: 5px; font-weight: bold;'> Username Not Available. </span>").insertAfter("#id_username")
+                    }
+                    else{
+                        $(".username_error").remove();
+                        $("<span class='username_error' style='color: green; padding: 5px; font-weight: bold;'> Username Available. </span>").insertAfter("#id_username")
+                    }
+                })
+
+                .fail(function(){
+                    console.log("Failed");
+                })
+            }
+            else{
+                $(".username_error").remove();
+            }
+            
+        })
+    })
+</script>
+
+{% endblock custom_js %}

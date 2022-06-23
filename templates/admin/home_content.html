@@ -1,0 +1,187 @@
+{% extends 'admin/base-home.html' %}
+{% load static %}
+{% block content %}
+<section class="content">
+        <div class="container-fluid">
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
+            <div class="col-xl-4 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-header">
+                  <a href="{% url 'manage_student' %}" class="small-box-footer">Gestion des Etudiants <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+                  <div class="card-body">
+                      <div class="row no-gutters align-items-center">
+                          <div class="col mr-2">
+                              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Nombre total des Etudiants</div>
+                              <div class="h5 mb-0 font-weight-bold text-gray-800">{{ all_student_count }}</div>
+                          </div>
+                          <div class="col-auto">
+                              <i class="fas fa-users fa-2x text-gray-300"></i>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+              <div class="card-header">
+                <a href="{% url 'manage_professeur' %}" class="small-box-footer">Gestion des Enseignants <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                              Nombre total des Enseignants :</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ all_professeur_count }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-user fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6 mb-4">
+          <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-header">
+              <a href="{% url 'manage_users' %}" class="small-box-footer">Gestion des Utilisateurs <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+              <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Nombre total des Utilisateurs :</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ all_users_count }}</div>
+                      </div>
+                      <div class="col-auto">
+                          <i class="fas fa-user fa-2x text-gray-300"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+
+        <div class="col-xl-4 col-md-6 mb-4">
+          <div class="card border-left-danger shadow h-100 py-2">
+            <div class="card-header">
+              <a href="{% url 'filiere' %}" class="small-box-footer">Gestion des Filieres <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+              <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                          <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                            Nombre total des Filieres :</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ all_filiere_count }}</div>
+                      </div>
+                      <div class="col-auto">
+                          <i class="fas fa-bookmark fa-2x text-gray-300"></i>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+      <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card border-left-dark shadow h-100 py-2">
+          <div class="card-header">
+            <a href="{% url 'etablissement' %}" class="small-box-footer">Gestion des Etablissements <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">
+                          Nombre total des Etablissements :</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ all_etablissements_count }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-home fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-xl-4 col-md-6 mb-4">
+      <div class="card border-left-link shadow h-100 py-2">
+        <div class="card-header">
+          <a href="{% url 'emploie_admin' %}" class="small-box-footer">Gestion des Emploies <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+          <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-link text-uppercase mb-1">
+                        Nombre total des Emploies :</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ all_emploie_count }}</div>
+                  </div>
+                  <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+
+  <div class="col-xl-4 col-md-6 mb-4">
+    <div class="card border-left-info shadow h-100 py-2">
+      <div class="card-header">
+        <a href="{% url 'manage_modules' %}" class="small-box-footer">Gestion des Modules <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                      Nombre total des Modules :</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ all_module_count }}</div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-book fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-xl-4 col-md-6 mb-4">
+  <div class="card border-left-warning shadow h-100 py-2">
+    <div class="card-header">
+      <a href="{% url 'manage_elem_modules' %}" class="small-box-footer">Gestion des Elements Modules <i class="fas fa-arrow-circle-right"></i></a>
+    </div>
+      <div class="card-body">
+          <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                    Nombre total des Elements Modules :</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{ all_elem_modules_count }}</div>
+              </div>
+              <div class="col-auto">
+                  <i class="fas fa-glob fa-2x text-gray-300"></i>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+            
+
+            
+          </div>
+
+
+        </div><!-- /.container-fluid -->
+      </section>
+
+  {% endblock content %}

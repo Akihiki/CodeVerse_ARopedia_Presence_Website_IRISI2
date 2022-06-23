@@ -1,0 +1,314 @@
+{% extends "admin/base-home.html" %} 
+{% load static %}{% block title %} Filieres
+{% endblock %}
+ 
+<!-- importation des fichier css  -->
+{% block stylesheets %}
+<link href="{% static 'css/filiere.css' %}" rel="stylesheet" />
+{% endblock stylesheets %} {% block content %}
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header card-header-primary card-header-flex">
+      <div class="card-header">
+        <h4 class="card-title">Table des filières</h4>
+        <p class="card-category">La liste des filières avec les établissements associés</p>
+      </div>
+
+      {% comment %} form pour le rechereche du filiere {% endcomment %}
+      <form
+        class="navbar-form col-md-6"
+        method="POST"
+        action="/filiere_etab/filiere/search"
+      >
+        {% csrf_token %}
+        <div class="input-group no-border">
+          <input
+            type="text"
+            value=""
+            name="text"
+            class="form-control"
+            placeholder="Recherche..."
+          />
+          <button type="submit" class="btn btn-primary btn-round btn-just-icon">
+            <i class="fas fa-fw fa-search"></i>
+            <div class="ripple-container"></div>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    {% comment %} affichage de la liste des differentes filiere {% endcomment %}
+    <div class="card-body">
+      <div class="table-responsive">
+        {% if data is None or data.count == 0 %}
+        <h3 class="col-md-12" style="color: red">aucune donnee trouvée !</h3>
+        {% else %}
+
+        <table class="table">
+          <thead class="text-primary">
+            <th class="col-md-1">ID</th>
+            <th class="col-md-1">Nom</th>
+            <th class="col-md-1">Etablissement</th>
+            <th class="col-md-2">LOGO</th>
+            <th class="col-md-1">Modifier</th>
+            <th class="col-md-1">Supprimer</th>
+          </thead>
+          <tbody>
+            <tr></tr>
+            {% for dt in data %}
+            <tr>
+              <td id="ide">{{dt.id}}</td>
+              <td id="nom">{{dt.nom_filiere}}</td>
+              <td id="etab" iden="{{dt.etablissement.id}}">{{dt.etablissement.nom}}</td>
+              <td class="image">
+                {% if dt.logo %}
+              <img style="width: 60px;height: 46px;border-radius: 3px;" src="{{dt.logo.url}}" alt="" srcset="" />
+             {% else %}
+            <img style="width: 60px;height: 46px;border-radius: 3px;" src="{% static 'img/default.png' %}" />
+            {% endif %}
+                
+              </td>
+              <td>
+                {% comment %} modification de la filiere {% endcomment %}
+                <div
+                class="edit"
+                  data-toggle="modal"
+                  data-target="#eModal"
+                  style="color: blue; cursor: pointer"
+                >
+                  <i class="fas fa-edit"></i>
+                </div>
+              </td>
+              <td>
+                {% comment %} supprission du filiere {% endcomment %}
+                <a
+                  href="/filiere_etab/filiere/delete/{{dt.id}}"
+                  class="delete"
+                  data-toggle="modal"
+                  data-target="#deleteModal"
+                  style="color: red"
+                  ><i class="fas fa-trash-alt"></i
+                ></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% endif %}
+      </div>
+    </div>
+    <div class="card-header card-add">
+      <button
+        class="btn btn-primary"
+        data-toggle="modal"
+        data-target="#cModal"
+      >
+        Ajouter
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pour la confirmation de supprission  -->
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Avertissement</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">Êtes-vous sûr de supprimer cet élément ?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Annuler
+        </button>
+        <button type="button" id="confirm" class="btn btn-primary btn-red">
+          Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pour la creation  d'une filiere  -->
+
+<div
+  class="modal fade"
+  id="cModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nouvelle filière</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          method="post"
+          action="/filiere_etab/filiere/create"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label"
+              >Le nom de la filière :</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              name="nom_filiere"
+              required
+            />
+          </div>
+          <div class="form-group">
+           <select name="etablissement" class="custom-select" id="gender2" required>
+          <option selected value="">Etablissement (Aucun)</option>
+          {% for dt in data2  %}
+          <option value="{{dt.id}}">{{dt.nom}}</option>
+          {% endfor %}
+        </select> 
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label"
+              >Le logo de la filière:</label
+            >
+            <input type="file" class="form-control" name="logo" />
+          </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Annuler
+        </button>
+        <button type="submit" class="btn btn-primary">Creer</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pour la  modification de filiere  -->
+
+<div
+  class="modal fade"
+  id="eModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modifier filière</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form
+          method="post"
+          id="editform"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label"
+              >Le nom de la filière :</label
+            >
+            <input
+            id="input-nom"
+              type="text"
+              class="form-control"
+              name="nom_filiere"
+              required
+            />
+          </div>
+          <div class="form-group">
+           <select name="etablissement" class="custom-select" id="etabselect" required>
+          <option selected value="">Etablissement (Aucun)</option>
+           {% for dt in data2  %}
+          <option value="{{dt.id}}">{{dt.nom}}</option>
+          {% endfor %}
+        </select> 
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label"
+              >Le logo de la filière:</label
+            >
+            <input type="file" class="form-control" name="logo" />
+          </div>
+        
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Annuler
+        </button>
+        <button type="submit" class="btn btn-primary">Modifier</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+
+  // prendre le lien de l'element a supprimer
+  var deleteLinks = document.querySelectorAll(".delete");
+  for (var i = 0; i < deleteLinks.length; i++) {
+    deleteLinks[i].addEventListener("click", function (event) {
+      event.preventDefault();
+      $("#confirm").attr("link", $(this).attr("href"));
+    });
+  }
+
+  // confirmation de supprission
+  $("#confirm").click(function (e) {
+    e.preventDefault();
+    window.location.href = $(this).attr("link");
+  });
+  // placer le nom de la filiere et le lien de table vers la formule
+  $( ".edit" ).each(function(index) {
+  $(this).click(function (e) { 
+  e.preventDefault();
+  $("#input-nom").val($(this).parent().parent().children("#nom").text());
+  $("#etabselect").val($(this).parent().parent().children("#etab").attr('iden'));
+  $("#editform").attr("action","/filiere_etab/filiere/edit/"+$(this).parent().parent().children("#ide").text());
+});
+});
+</script>
+{% endblock javascripts %}

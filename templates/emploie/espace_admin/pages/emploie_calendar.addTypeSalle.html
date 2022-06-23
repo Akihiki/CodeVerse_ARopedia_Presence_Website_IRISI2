@@ -1,0 +1,99 @@
+<!--
+  EQUIPE  : CodeVerse
+  @author : FIROUD Reda & OUSSAHI Salma
+-->
+
+{% extends '../base.html' %}
+
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+{% block title %} Emploi du temps {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-xl-5 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-1">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+
+                        <div class="col-auto">
+                            <i class="fas fa-calendar-day fa-3x text-primary"></i>
+                        </div>
+
+                        <div class="col ml-4">
+                            <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Time Schedule</div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">Admin : {{ user.username }}</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">{% now "l d F Y, H:i" %}</h6>
+        </div>
+        <div class="card-body">
+            
+                        <form method="post" action="{% url 'AddTypeSalle' %}">
+                            <h1>Ajouter un type de salle</h1>
+
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                
+                                <div class="form-row">
+                                    <div class="col">
+                                        {{ form.capacite|as_crispy_field }}                                    </div>
+                                    <div class="col">
+                                        {{ form.libelle|as_crispy_field  }}
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            </div>
+                        </form>
+                    
+                        <h2 class="m-0 font-weight-bold text-success">Type de salles</h2>
+
+            <table class="table table-hover">
+                <thead>
+
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Capacite</th>
+                    <th scope="col">Libelle</th>
+                    
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for typesalle in typesalles %}
+
+                  <tr>
+                    <th scope="row">{{ typesalle.id}}</th>
+                    <td>{{ typesalle.capacite}}</td>
+                    <td>{{ typesalle.libelle}}</td>
+                    
+                    <td>
+                            <a type="button" href="../editTypeSalle/{{ typesalle.id }}" class="btn btn-primary">Edit</a>
+                            <a type="button" href="../destroyTypeSalle/{{ typesalle.id }}" class="btn btn-danger">Delete</a>
+                    </td>
+                  </tr>
+                {% endfor %}  
+                </tbody>
+              </table>
+ 
+        </div>
+
+    </div>
+
+   
+
+
+{% endblock %}

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="zxx">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IRISI2 - Augmented Reality </title>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <!-- animate css -->
+    <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+    <!-- font-awesome css -->
+    <link rel="stylesheet" href="{% static 'assets/css/all.css' %}">
+    <!-- main css -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+</head>
+
+<body>
+
+    <!-- preloader begin -->
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+    <!-- preloader end -->
+
+    <!-- header begin -->
+    <div class="header header-2">
+        <img class="hd-bg-1" src="{% static 'assets/img/hd-bg-1.png' %}" alt="">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-xl-2 col-lg-2 d-xl-flex d-lg-flex d-block align-items-center">
+                    <div class="row">
+
+                        <div class="d-xl-none d-lg-none d-block col-6">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-7 col-lg-10">
+                    <div class="mainmenu">
+                        <nav class="navbar navbar-expand-lg">
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#"> Accueil </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#aboutUs"> A Propos </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#hiw">Espaces Utilisateurs</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#plan">Nos Entreprises</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#footer">Contactez Nous</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-2 d-xl-flex d-lg-none d-block align-items-center justify-content-end">
+                    <a href="login" class="starter-btn">Connexion <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header end -->
+
+    <!-- banner begin -->
+    <div class="banner banner-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-9 col-md-10">
+                    <div class="part-text">
+                        <h1><span class="special">La réalité augmentée</span> au service de l'éducation.</h3>
+                            <a href="#plan" class="banner-btn">
+                                Détails des Entreprises <i class="fas fa-arrow-right"></i>
+                            </a>
+                    </div>
+                </div>
+            </div>
+            <div class="part-img">
+                <img src="{% static 'assets/img/banner-img-2.png' %}" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- banner end -->
+
+    <!-- about begin -->
+    <div class="about" id="aboutUs">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-xl-2 col-lg-2 col-md-2">
+                    <!-- <div class="part-img">
+                        <img src="{% static 'assets/img/about-img.png' %}" alt="">
+                    </div> -->
+                </div>
+                <div class="col-xl-8 col-lg-8 d-xl-flex d-lg-flex d-block align-items-center col-md-8">
+                    <div class="part-text">
+                        <h3 class="subtitle">A Propos de Nous</h3>
+                        <h2 class="title">Plateforme de Réalité Augmenté & Gestion de Présence</h2>
+                        <p>Ce Projet est une Plateforme dédiée à l'éducation, elle est l'objet du module Conduite de
+                            projet informatique des étudiants en ingénierie réseau et systèmes d'information (IRISI)
+                            à la faculté des sciences et techniques de Marrakech (FSTG de Marrakech) au titre de l'année
+                            universitaire 2021-2022.</p>
+                        <a href="login" class="str-btn">
+                            Rejoinnez-Nous <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2">
+                    <!-- <div class="part-img">
+                        <img src="{% static 'assets/img/about-img.png' %}" alt="">
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- about end -->
+
+    <!-- how to start begin -->
+    <div class="how-to-start" id="hiw">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-lg-6">
+                    <div class="section-title">
+                        <h2>Connexion</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row custom-gutter">
+                <!-- <div class="col-xl-3 col-lg-3 col-6">
+                    <div class="single-way">
+                        <div class="part-img">
+                            <img src="{% static 'assets/img/how-to-start/single-way-2.png' %}" alt="">
+                        </div>
+                        <div class="part-text">
+                            <h4 class="title"><a href="login">Espace Super User</a></h4>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="col-xl-6 col-lg-6 col-6">
+                    <div class="single-way">
+                        <div class="part-img">
+                            <img src="{% static 'assets/img/how-to-start/single-way-1.png' %}" alt="">
+                        </div>
+                        <div class="part-text">
+                            <h4 class="title"><a href="login">Espace Admin</a></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-6">
+                    <div class="single-way">
+                        <div class="part-img">
+                            <img src="{% static 'assets/img/how-to-start/single-way-3.png' %}" alt="">
+                        </div>
+                        <div class="part-text">
+                            <h4 class="title"><a href="login">Espace Enseignant</a></h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-xl-4 col-lg-4 col-6">
+                    <div class="single-way">
+                        <div class="part-img">
+                            <img src="{% static 'assets/img/how-to-start/single-way-4.png' %}" alt="">
+                        </div>
+                        <div class="part-text">
+                            <h4 class="title"><a href="login">Espace Etudiant</a></h4>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!-- how to start end -->
+
+    <!-- transaction begin -->
+    <div class="price" id="plan">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-lg-6">
+                    <div class="section-title style-2">
+                        <h2>Entreprises :</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row custom-gutter">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-price">
+                        <div class="part-head">
+                            <span class="plan-name plan-1">UnivIT Company</span>
+                            <div class="plan-icon">
+                                <img src="/media/img/univit_logo.png" alt="">
+                            </div>
+                        </div>
+                        <div class="part-body">
+                            <br>
+                            <ul>
+                                <h4 class="plan-title-feature">Chef d'équipe :</h4>
+                                <li>
+                                    <span class="feature-list-title"> OUBENADDI KAOUTAR</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef de communication :</h4>
+                                <li>
+                                    <span class="feature-list-title"> OUGOUD KHADIJA</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef de livrable :</h4>
+                                <li>
+                                    <span class="feature-list-title"> ETTAFSSAOUI YOUSSEF</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef de qualité de code :</h4>
+                                <li>
+                                    <span class="feature-list-title"> ERROUK ISMAIL</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-price">
+                        <div class="part-head">
+                            <span class="plan-name plan-2">CodeVerse Company</span>
+                            <div class="plan-icon">
+                                <img src="{% static 'assets/img/logos/logo_codeverse.svg' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="part-body">
+                            <br>
+                            <ul>
+                                <h4 class="plan-title-feature">Chef d'équipe :</h4>
+                                <li>
+                                    <span class="feature-list-title"> FIROUD REDA</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef de communication :</h4>
+                                <li>
+                                    <span class="feature-list-title"> KANNOUFA FATIMA EZZAHRA</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef de livrable :</h4>
+                                <li>
+                                    <span class="feature-list-title"> OUSSAHI SALMA</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef de qualité de code :</h4>
+                                <li>
+                                    <span class="feature-list-title"> MAROUNI HICHAM</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-price">
+                        <div class="part-head">
+                            <span class="plan-name plan-3">Digi Learn Company</span>
+                            <div class="plan-icon">
+                                <img src="{% static 'assets/img/logos/digitalearn.jpg' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="part-body">
+                            <br>
+                            <ul>
+                                <h4 class="plan-title-feature">Chef d'équipe :</h4>
+                                <li>
+                                    <span class="feature-list-title"> BOUGARY TAMEGA </span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef de communication :</h4>
+                                <li>
+                                    <span class="feature-list-title"> HAJAR SAFIA-EDDINE</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef de livrable :</h4>
+                                <li>
+                                    <span class="feature-list-title"> NOUR-ELHOUDA RAGUIGUE</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef de qualité de code :</h4>
+                                <li>
+                                    <span class="feature-list-title"> ELRHAOUTI AHMED</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-price">
+                        <div class="part-head">
+                            <span class="plan-name plan-1">UnivIT Company</span>
+                            <div class="plan-icon">
+                                <img src="{% static 'assets/img/how-to-start/single-way-4.png' %}" alt="">
+                            </div>
+                        </div>
+                        <div class="part-body">
+                            <br>
+                            <ul>
+                                <h4 class="plan-title-feature">Chef d'équipe :</h4>
+                                <li>
+                                    <span class="feature-list-title"> ETTAFSSAOUI YOUSSEF</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef d'équipe :</h4>
+                                <li>
+                                    <span class="feature-list-title"> ETTAFSSAOUI YOUSSEF</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef d'équipe :</h4>
+                                <li>
+                                    <span class="feature-list-title"> ETTAFSSAOUI YOUSSEF</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef d'équipe :</h4>
+                                <li>
+                                    <span class="feature-list-title"> ETTAFSSAOUI YOUSSEF</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                    <div class="single-price">
+                        <div class="part-head">
+                            <span class="plan-name plan-1">ARopedia Company</span>
+                            <div class="plan-icon">
+                                <img src="{% static 'assets/img/how-to-start/aropedia-logo.png' %}" alt="" width="200"
+                                    height="200">
+                            </div>
+                        </div>
+                        <div class="part-body">
+                            <br>
+                            <ul>
+                                <h4 class="plan-title-feature">Chef d'équipe :</h4>
+                                <li>
+                                    <span class="feature-list-title"> BENTOUHAMI NARJIS</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef de qualité de code :</h4>
+                                <li>
+                                    <span class="feature-list-title"> MOUZAFIR ABDELHADI</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef de livrable :</h4>
+                                <li>
+                                    <span class="feature-list-title"> AMINATOU ABDOU Hamissou</span>
+                                </li>
+                                <h4 class="plan-title-feature">Chef de communication :</h4>
+                                <li>
+                                    <span class="feature-list-title"> SAMI JIMOUH</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- transaction end -->
+
+    <!-- footer begin -->
+    <div class="footer" id="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div
+                    class="row custom-gutter d-xl-flex d-lg-flex d-md-flex align-items-xl-end align-items-lg-end align-items-start justify-content-between">
+                    <div class="col-xl-4 col-lg-4">
+                        <div class="footer-contact-element">
+                            <div class="foot-logo">
+                                <a href="#">
+                                    <p style="color : fff;">E-PLATEFORME</p>
+
+                                    <!-- <img src="{% static 'assets/img/logo.png' %}" alt=""> -->
+                                </a>
+                            </div>
+                            <div class="contact-info">
+                                <ul>
+                                    <li>
+                                        <span class="part-icon">
+                                            <img src="{% static 'assets/img/footer/footer-icon.png' %}" alt="">
+                                        </span>
+                                        <div class="part-text">
+                                            <span class="title">Téléphone:</span>
+                                            <span class="discr">+212 6 25143698</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="part-icon">
+                                            <img src="{% static 'assets/img/footer/footer-icon-2.png' %}" alt="">
+                                        </span>
+                                        <div class="part-text">
+                                            <span class="title">Email:</span>
+                                            <span class="discr">irisi22@gmail.com</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="part-icon">
+                                            <img src="{% static 'assets/img/footer/footer-icon-3.png' %}" alt="">
+                                        </span>
+                                        <div class="part-text">
+                                            <span class="title">Address:</span>
+                                            <span class="discr">33 FSTG Marrakech</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 col-md-6">
+                        <div class="useful-link first">
+                            <h3 class="title">Mon Compte</h3>
+                            <ul>
+                                <li>
+                                    <a href="login"><i class="fas fa-arrow-right"></i> Se connecter</a>
+                                </li>
+                                <br>
+                                <br>
+                                <br>
+                                <!-- <li>
+                                    <a href="#"><i class="fas fa-arrow-right"></i> How to Deposit</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fas fa-arrow-right"></i> How to Withdraw</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fas fa-arrow-right"></i> Account Varification</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fas fa-arrow-right"></i> Safety & Security</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fas fa-arrow-right"></i> Membership Level</a>
+                                </li> -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-3 col-md-6">
+                        <div class="useful-link second">
+                            <h3 class="title">A propos</h3>
+                            <ul>
+                                <li>
+                                    <a href="#aboutUs"><i class="fas fa-arrow-right"></i> A proposs</a>
+                                </li>
+                                <br>
+                                <br>
+                                <br>
+                                <!-- <li>
+                                    <a href="#"><i class="fas fa-arrow-right"></i> Contact Us</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fas fa-arrow-right"></i> Latest Blog</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fas fa-arrow-right"></i> Pay Guarantee</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fas fa-arrow-right"></i> Clients Reviews</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fas fa-arrow-right"></i> Privacy Policy</a>
+                                </li> -->
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 d-xl-block d-lg-none">
+                        <div class="part-img">
+                            <img src="{% static 'assets/img/footer/footer-img.png' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-sm-6 d-xl-flex d-lg-flex d-flex align-items-center">
+                        <p>Copyright © 2022 - IRISI2. All right reserved.</p>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-sm-6">
+                        <div class="part-img">
+                            <!-- <img src="{% static 'assets/img/footer/payment-gateway-img.png' %}" alt=""> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer end -->
+
+    <!-- back to button begin -->
+    <div class="back-to-top-btn">
+        <a href="#">
+            <img src="{% static 'assets/img/svg/arrow.svg' %}" alt="">
+        </a>
+    </div>
+    <!-- back to top button end -->
+
+    <!-- jQuery js -->
+    <script src="{% static 'assets/js/jquery-3.6.0.min.js' %}"></script>
+    <!-- bootstrap -->
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- main js -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+
+</html>

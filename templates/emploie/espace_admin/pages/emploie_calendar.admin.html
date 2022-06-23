@@ -1,0 +1,405 @@
+<!--
+  EQUIPE  : CodeVerse
+  @author : FIROUD Reda & OUSSAHI Salma
+-->
+
+{% extends '../base.html' %}
+
+
+{% load static %}
+
+{% block title %} Emploi du temps {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-xl-5 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-1">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+
+                        <div class="col-auto">
+                            <i class="fas fa-calendar-day fa-3x text-primary"></i>
+                        </div>
+
+                        <div class="col ml-4">
+                            <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Time Schedule</div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800">Admin : {{ user.username }}</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {% if filliers or fillier %}
+            <div class="col-xl-4 col-md-4 mb-4">
+                <div class="card border-left-primary shadow h-100 py-1">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+
+                            <div class="col-auto">
+
+                                <i class="fas fa-chalkboard-teacher fa-3x text-primary"></i>
+                            </div>
+
+                            <div class="col ml-4">
+                                {% if fillier %}
+                                    <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Selected
+                                        classe
+                                    </div>
+                                {% else %}
+                                    <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Select
+                                        classe
+                                    </div>
+                                {% endif %}
+                                {% if filliers|length > 1 %}
+
+                                    <form role="form" action="/emploie/GetNiveaux/" method="post" id="FiliereForm">
+                                        {% csrf_token %}
+                                        <select name="filiereselection" onchange="sendFiliereGetNiveaux()"
+                                                class="form-select"
+                                                aria-label="Default select example">
+                                            {% if filliers|length > 1 %}
+                                                <option selected disabled>select</option>
+                                                {% for fillier in filliers %}
+                                                    <option value={{ fillier.nom_filiere }}>
+                                                        {{ fillier.nom_filiere }}
+                                                    </option>
+                                                {% endfor %}
+                                            {% else %}
+                                                <option selected disabled>{{ fillier }}</option>
+                                            {% endif %}
+                                        </select>
+                                    </form>
+                                {% else %}
+                                    <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> {{ fillier }}
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-xl-4 col-md-4 mb-4">
+                <div class="card border-left-primary shadow h-100 py-1">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+
+                            <div class="col-auto">
+                                <i class="fas fa-exclamation-circle fa-3x text-primary"></i>
+                            </div>
+
+                            <div class="col ml-4">
+                                <div class="text-lg font-weight-bold text-warning text-uppercase mb-1"> No Filiere Found
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if fillier %}
+            {% if niveau or niveaux %}
+                <div class="col-xl-4 col-md-4 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-1">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+
+                                <div class="col-auto">
+                                </div>
+                                <div class="col ml-4">
+                                    {% if niveau %}
+                                        <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Selected
+                                            level
+                                        </div>
+                                    {% else %}
+                                        <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Select
+                                            level
+                                        </div>
+                                    {% endif %}
+                                    {% if niveaux|length > 1 %}
+
+                                        <form role="form" action="/emploie/GetGroupes/" method="post" id="NiveauForm">
+                                            {% csrf_token %}
+
+                                            <select name="niveauselection" class="form-select"
+                                                    onchange="sendNiveauxGetGroups()"
+                                                    aria-label="Default select example">
+                                                <option selected disabled>select</option>
+                                                {% for niveau in niveaux %}
+                                                    <option value={{ niveau.id }}>
+                                                        {{ niveau.nom_niveau }}
+                                                    </option>
+                                                {% endfor %}
+
+                                            </select>
+                                        </form>
+                                    {% else %}
+                                        <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> {{ niveau }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-xl-4 col-md-4 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-1">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+
+                                <div class="col-auto">
+                                    <i class="fas fa-exclamation-circle fa-3x text-primary"></i>
+                                </div>
+
+                                <div class="col ml-4">
+                                    <div class="text-lg font-weight-bold text-warning text-uppercase mb-1"> No Level
+                                        Found
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+        {% if niveau %}
+            {% if groupe or groupes %}
+                <div class="col-xl-4 col-md-4 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-1">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+
+                                <div class="col-auto">
+                                </div>
+
+                                <div class="col ml-4">
+                                    {% if niveau %}
+                                        <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Selected
+                                            Group
+                                        </div>
+                                    {% else %}
+                                        <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> Select
+                                            Groupe
+                                        </div>
+                                    {% endif %}
+                                    {% if groupes|length > 1 %}
+
+                                        <form role="form" action="/emploie/SendGroupes/" method="post" id="GroupeForm">
+                                            {% csrf_token %}
+
+                                            <select name="groupeselection" class="form-select" onchange="sendGroupes()"
+                                                    aria-label="Default select example">
+                                                <option selected disabled>select</option>
+                                                {% for groupe in groupes %}
+                                                    <option value={{ groupe.id }}>
+                                                        {{ groupe.nom_group }}
+                                                    </option>
+                                                {% endfor %}
+
+                                            </select>
+                                        </form>
+                                    {% else %}
+                                        <div class="text-lg font-weight-bold text-primary text-uppercase mb-1"> {{ groupe }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-xl-4 col-md-4 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-1">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+
+                                <div class="col-auto">
+                                    <i class="fas fa-exclamation-circle fa-3x text-primary"></i>
+                                </div>
+
+                                <div class="col ml-4">
+                                    <div class="text-lg font-weight-bold text-warning text-uppercase mb-1"> No Groupe
+                                        Found
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+
+    </div>
+
+
+    {% if fillier and niveau and groupe %}
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">{% now "l d F Y, H:i" %}</h6>
+            </div>
+            <div class="card-body">
+                    <div id="calendar"></div>
+            </div>
+            
+        </div>
+    {% else %}
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">{% now "D d M y" %}</h6>
+            </div>
+            <div class="card-body">
+                <img src="{% static 'img/selecting.png' %}" alt="My image" width="35%">
+                <span class="text-lg font-weight-bold text-danger text-uppercase mb-6">Select the levels and Groups first before accessing calendar
+            </span>
+            </div>
+
+        </div>
+    {% endif %}
+
+    
+    <script>
+        function sendGroupes() {
+            document.getElementById('GroupeForm').submit()
+        }
+
+        function sendNiveauxGetGroups() {
+            document.getElementById('NiveauForm').submit()
+
+        }
+
+        function sendFiliereGetNiveaux() {
+            document.getElementById('FiliereForm').submit()
+
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var today = new Date();
+        
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,list'
+          },
+          initialDate: today,
+          navLinks: true, // can click day/week names to navigate views
+          selectable: true,
+          selectMirror: true,
+          select: function(arg) {
+            console.log('clicked')
+            var modal = document.getElementById('eventModal')
+            modal.style.display = 'block'
+            calendar.unselect()
+          },
+         
+         
+          editable: true,
+          dayMaxEvents: true, // allow "more" link when too many events
+         
+           events: [
+               
+               
+           {% for planning in plannings %}
+           {
+            {% if planning.jour == "MONDAY" %}
+               title: "{{ planning.element_module.libelle_element_module}} ({{ planning.heure_debut}} to {{ planning.heure_fin}}) ",
+               startTime:"{{ planning.heure_debut}}",   
+               start: '{{ planning.date_debut|date:"Y-m-d" }}',
+               end: '{{ planning.date_fin|date:"Y-m-d" }}',
+               startTime:'{{ planning.heure_debut }}',
+               daysOfWeek:[1]
+            {% endif  %}
+
+            {% if planning.jour == "TUESDAY" %}
+               title: "{{ planning.element_module.libelle_element_module}} ({{ planning.heure_debut}} to {{ planning.heure_fin}}) ",
+               startTime:"{{ planning.heure_debut}}",   
+               start: '{{ planning.date_debut|date:"Y-m-d" }}',
+               end: '{{ planning.date_fin|date:"Y-m-d" }}',
+               startTime:'{{ planning.heure_debut }}',
+               daysOfWeek:[2]
+            {% endif  %}
+
+            {% if planning.jour == "WEDNESDAY" %}
+               title: "{{ planning.element_module.libelle_element_module}} ({{ planning.heure_debut}} to {{ planning.heure_fin}}) ",
+               startTime:"{{ planning.heure_debut}}",   
+               start: '{{ planning.date_debut|date:"Y-m-d" }}',
+               end: '{{ planning.date_fin|date:"Y-m-d" }}',
+               startTime:'{{ planning.heure_debut }}',
+               daysOfWeek:[3]
+            {% endif  %}
+
+            {% if planning.jour == "THURSDAY" %}
+               title: "{{ planning.element_module.libelle_element_module}} ({{ planning.heure_debut}} to {{ planning.heure_fin}}) ",
+               startTime:"{{ planning.heure_debut}}",   
+               start: '{{ planning.date_debut|date:"Y-m-d" }}',
+               end: '{{ planning.date_fin|date:"Y-m-d" }}',
+               startTime:'{{ planning.heure_debut }}',
+               daysOfWeek:[4]
+            {% endif  %}
+            {% if planning.jour == "FRIDAY" %}
+               title: "{{ planning.element_module.libelle_element_module}} ({{ planning.heure_debut}} to {{ planning.heure_fin}}) ",
+               startTime:"{{ planning.heure_debut}}",   
+               start: '{{ planning.date_debut|date:"Y-m-d" }}',
+               end: '{{ planning.date_fin|date:"Y-m-d" }}',
+               startTime:'{{ planning.heure_debut }}',
+               daysOfWeek:[5]
+            {% endif  %}
+            {% if planning.jour == "SATURDAY" %}
+               title: "{{ planning.element_module.libelle_element_module}} ({{ planning.heure_debut}} to {{ planning.heure_fin}}) ",
+               startTime:"{{ planning.heure_debut}}",   
+               start: '{{ planning.date_debut|date:"Y-m-d" }}',
+               end: '{{ planning.date_fin|date:"Y-m-d" }}',
+               startTime:'{{ planning.heure_debut }}',
+               daysOfWeek:[6]
+            {% endif  %}
+            {% if planning.jour == "SUNDAY" %}
+               title: "{{ planning.element_module.libelle_element_module}} ({{ planning.heure_debut}} to {{ planning.heure_fin}}) ",
+               startTime:"{{ planning.heure_debut}}",   
+               start: '{{ planning.date_debut|date:"Y-m-d" }}',
+               end: '{{ planning.date_fin|date:"Y-m-d" }}',
+               startTime:'{{ planning.heure_debut }}',
+               daysOfWeek:[7]
+            {% endif  %}
+
+            
+           },
+           {% endfor %}
+          ]
+        });
+        
+        calendar.render();
+        });
+        const closeBtn1 = document.getElementById('modalClose1');
+        const closeBtn2 = document.getElementById('modalClose2');
+        closeBtn1.addEventListener('click',()=>{
+        const eventModal = document.getElementById('eventModal')
+        eventModal.style.display = 'none';
+        });
+        closeBtn2.addEventListener('click',()=>{
+        const eventModal = document.getElementById('eventModal')
+        eventModal.style.display = 'none';
+        });
+        </script>
+
+
+{% endblock %}

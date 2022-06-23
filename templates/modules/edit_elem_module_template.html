@@ -1,0 +1,220 @@
+{% extends 'admin/base-home.html' %}
+{% block title %}
+    Modifier Element de module #{{ element.id }}
+{% endblock title %}
+{% block content %}
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid mt-5 ml-2">
+                <div class="row mb-2">
+                    <div class="col-sm-8">
+                        <h1 class="m-0 text-dark">
+                            <span style="color: #0080c0;">{{ niveau.nom_niveau }}</span> <span>| Element  module #{{ element.id }}</span>
+                        </h1>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-sm-4">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'manage_elem_modules'  %}"
+                                   class="text-decoration-none">
+                                    <img src="https://img.icons8.com/color/24/000000/arrow-pointing-left--v2.png"/>
+                                    Retour</a>
+                            </li>
+                            {% comment %} <li class="breadcrumb-item active"> <a href="{% url 'manage_modules' %}">Modules/Getion_Modules</a></li> {% endcomment %}
+                        </ol>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+    </div>
+    {% if messages %}
+        <div class="login-box-msg mb-4 ml-4 col-12 mt-5">
+            {% for message in messages %}
+                {% if message.tags == "error" %}<span class="alert alert-danger">{{ message }}</span>{% endif %}
+                {% if message.tags == "success" %}<span class="alert alert-success">{{ message }}</span>{% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <section class="content">
+        <div class="container-fluid mt-5">
+            <div class="card card-dark">
+                <div class="card-header">
+                    <h3 class="card-title">Modifier l'Element</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form role="form"
+                      action="/edit_element_module_save"
+                      method="post"
+                      id="myform">
+                    {% csrf_token %}
+                    <div class="card-body">
+
+
+ <div class="row" > 
+
+<div class="col-5">
+  <div class="row">
+    <div class="col-12">
+    <div class="form-group">
+        <label>Module</label>
+        <select class="form-control" name="module_id">
+            {% for module in modules %}
+                {% if element.module == module %}
+                    <option value="{{ module.id }}" selected>
+                        {{ module.libelle_module }}
+                    </option>
+                {% else %}
+                    <option value="{{ module.id }}">
+                        {{ module.libelle_module }}
+                    </option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+  </div>
+
+</div>
+  <div class="row">
+    <div class="col-12">
+        <div class="form-group">
+            <input type="hidden" value={{ niveau.nom_niveau }} name="niveau">
+            <input type="hidden" value={{ element.id }} name="elem_module_id">
+
+            <label for="example">Libelle Element</label>
+            <input type="text" class="form-control" id="example" placeholder="Analyse 1" name="libelle_element_module" value={{ element.libelle_element_module }}>
+       
+    </div>
+  </div>
+</div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+            <label for="example">Volume horaire</label>
+            <input type="number" class="form-control" id="example" placeholder="volume horaire" name="volumeHoraire" min="0" value={{ element.volumeHoraire }}>
+        </div>
+      </div>
+    </div>
+
+   
+ 
+  
+    <div class="row">
+      <div class="col-12">
+          <div class="form-group">
+              <label for="example">Objectif</label>
+              <textarea class="form-control" name="objectif" rows="4">{{element.objectif}}</textarea>
+            </div>
+      </div>
+    </div>   
+  
+
+</div>
+<div class="col-6">
+
+
+
+  <div class="row">
+    <div class="col-12">
+      <div class="form-group">
+          <label>Responsable</label>
+          <select class="form-control" name="responsable">
+              {% for prof in responsables %}
+                  {% if element.responsable == prof %}
+                      <option value="{{ prof.id }}" selected>
+                          {{ prof.user.last_name }} {{ prof.user.first_name }}  / [{{ prof.specialite }}]
+                      </option>
+                  {% else %}
+                      <option value="{{ prof.id }}">
+                          {{ prof.user.last_name }} {{ prof.user.first_name }}   / [{{ prof.specialite }}]
+                      </option>
+                  {% endif %}
+              {% endfor %}
+          </select>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+            <label>Prerequis</label>
+            <select class="form-control" name="prerequis_id" multiple>
+                {% if element_modules|length < 1   %}
+                    <option >
+                        ------Pas de choix ------
+                    </option>
+                {% endif %}
+                {% for elem_module in element_modules %}
+                    {% for pre in prerequis %}
+                        {% if pre.prerequis_id == elem_module %}
+                            <option value="{{ elem_module.id }}" selected>
+                                {{ elem_module.libelle_element_module }}
+                            </option>
+                        {% else %}
+                            <option value="{{ elem_module.id }}">
+                                {{ elem_module.libelle_element_module }}
+                            </option>
+                        {% endif %}
+                        {% empty %}
+                        <option value="{{ elem_module.id }}">
+                          {{ elem_module.libelle_element_module }}
+                      </option>
+                    {% endfor %}
+                {% endfor %}
+            </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group">
+            <label>Enseignants</label>
+            <select class="form-control" name="prof" multiple>
+                {% for prof in profs %}
+                    {% for prof_ in element.prof_id.all %}
+                        {% if prof_ == prof %}
+                            <option value="{{ prof.id }}" selected>
+                                {{ prof.user.last_name }} {{ prof.user.first_name }}  / [{{ prof.specialite }}]
+                            </option>
+                        {% else %}
+                            <option value="{{ prof.id }}">
+                                {{ prof.user.last_name }} {{ prof.user.first_name }}  / [{{ prof.specialite }}]
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </select>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="col mt-5">
+    <div class="row d-flex" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">
+        <div class="col ">
+            <a href="javascript:;"
+            class="text-decoration-none "
+            onclick="document.getElementById('myform').submit()">
+            <img src="https://img.icons8.com/ios-glyphs/50/4a90e2/upload--v1.png"/>
+        </a>
+        </div>
+    </div>
+</div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
