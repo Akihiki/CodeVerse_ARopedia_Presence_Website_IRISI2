@@ -2,7 +2,7 @@
 
 
 ### Author 
-* ABDELHADI MOUZAFIR
+* ABDELHADI MOUZAFIR : All except "rest api in model views"
 
 ### Author 
 * AMINATOU ABDOU HAMISOU
