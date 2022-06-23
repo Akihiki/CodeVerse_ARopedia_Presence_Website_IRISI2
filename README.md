@@ -1,23 +1,48 @@
-### Basic Features of The App
-    
-* Register – Users can register and create a new profile
-* Login - Registered users can login using username and password
-* User Profile - Once logged in, users can create and update additional information such as avatar and bio in the profile page
-* Update Profile – Users can update their information such as username, email, password, avatar and bio
-* Remember me – Cookie Option, users don’t have to provide credentials every time they hit the site
-* Forgot Password – Users can easily retrieve their password if they forget it 
-* Admin Panel – admin can CRUD users
+# Code_verse-ARopedia_presence_backend_irisi2
+Cela est le repo du backend de projet de conduite de projet .Dans le fichier Readme vous allez voire la résponsabilite de chacune de nos equipes
 
-### Quick Start
-To get this project up and running locally on your computer follow the following steps.
-1. Set up a python virtual environment
-2. Run the following commands
-    * pip install -r steps.txt
-    * python manage.py makemigrations
-    * python manage.py migrate
-    * python manage.py createsuperuser
-    * python manage.py runserver
-    * python manage.py startapp polls
-   
-3. Open a browser and go to http://localhost:8000/
+====>Pour l'equipe CODEVERSE :                        
+Chef de projet :FIROUD Reda                      
+Chef de communication:KANNOUFA Fatima ezzahra    
+Chef de livrable: OUSSAHI Salma                 
+Chef de qualité de code :MAROUNI Hicham    
 
+
+====>Pour l'equipe ARopedia :                        
+Chef de projet :BENTOUHAMI Narjis               
+Chef de communication:JIMOUH Sami               
+Chef de livrable: HAMISOU ABDOU Aminatou        
+Chef de qualité de code :MOUZAFIR Abdelhadi     
+
+================>Partie CODEVERSE
+
+
+===>tous le dossier emploie ou on a fait :
+
+
+***la gestion des emploies pour les profs et pour l'admin (gestion des plannings et seances et des listes des presences)
+
+
+***la gestion des salles
+
+
+***la gestion des types salles
+
+
+===>le dossier face recognition(en commun avec ARopedia)
+
+
+***c'est la ou on a le metier de gestion de presence du training jusqu'au retour des listes de presence sur telephone
+
+
+===>le dossier templates(en commun avec tous les equipes)
+
+
+***c'est la ou on a les fichiers html concernant nos partie exactement sous les dossiers:(emploie,facerecognition)
+
+
+
+PS:dans chaque fichier est notee le nom des personnes qui ont travaillé ci dessous ,meme cas pour les fonctions
+
+
+================>Partie ARopedia
