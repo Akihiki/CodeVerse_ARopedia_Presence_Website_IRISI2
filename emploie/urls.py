@@ -2,6 +2,7 @@
 """ EQUIPE : CODEVERSE
     @author :   + FIROUD REDA et OUSSAHI SALMA
                 + KANNOUFA FATIMA EZZAHRA
+                + MAROUNI Hicham
 """
 
 from django.urls import path
@@ -45,6 +46,8 @@ urlpatterns = [
     path('api/get-photo/<path:path_image>/', getPhoto, name="getPhoto"),
     path('api/modifier-presence/<int:idSeance>/<int:idEtudiant>/', modifierPresenceAPI),
     
-    
+    # espace etudiant mobile api MAROUNI Hicham
+    path('api/etudiant/<int:etudiant_id>/absence', getetudiantpresence),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

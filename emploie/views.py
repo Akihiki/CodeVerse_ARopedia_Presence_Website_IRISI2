@@ -2,6 +2,7 @@
 """ RESPONSABLE : CODEVERSE
     @authors    + Espace admin : FIROUD Reda & OUSSAHI Salma
                 + Espace professeur : KANNOUFA Fatima Ezzahra
+                + Espace etudiant:MAROUNI Hicham
 """
 
 from django.shortcuts import render
@@ -190,4 +191,22 @@ def ModifierPresence(request, idSeance, idEtudiant):
     
     return redirect('ListePresence', slug=slug, idSeance=idSeance)
 
+###   ESPACE etudiant mobile #MAROUNI Hicham
+# retourner la liste de presence
+@api_view(['GET'])
+def getetudiantpresence(request, etudiant_id):
+    #   chercher la liste des persences
+
+    plannings1 = Presence.objects.filter(etudiant_id=etudiant_id)
+    #plannings8 = Presence.objects.filter(plannings1)
+    seances_etudiant = []
+    #   chercher pour chaque presence est qu'il etait present ou non
+    for planning in plannings1:
+        seances = Presence.objects.filter(
+            etudiant_id=etudiant_id, is_present=0)
+        seances_etudiant += seances
+
+    serializer1 = PresenceSerializer(seances_etudiant, many=True)
+
+    return Response(serializer1.data)
 
